@@ -1,0 +1,92 @@
+---
+import SectionTitle from '../ui/SectionTitle.astro';
+import Card from '../ui/Card.astro';
+---
+
+<section id="nosotros" class="py-20 bg-white dark:bg-slate-900">
+  <div class="container mx-auto px-4">
+    <SectionTitle
+      title="¿Quiénes somos?"
+      subtitle="Conectando la ciencia con la empresa para impulsar la innovación en Cuba"
+      centered
+    />
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-3 mb-6">
+          <span class="px-4 py-2 bg-eict-cyan-light/30 dark:bg-eict-cyan/20 text-eict-purple dark:text-eict-cyan rounded-full text-sm font-medium">
+            Capital 100% cubano
+          </span>
+          <span class="px-4 py-2 bg-eict-cyan-light/30 dark:bg-eict-cyan/20 text-eict-purple dark:text-eict-cyan rounded-full text-sm font-medium">
+            Decreto 363/2019
+          </span>
+        </div>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          <strong class="text-eict-purple dark:text-white">EICT S.A. - Sociedad de Interfaz de Ciencia y Tecnología</strong> es una empresa mercantil capital 100% cubano, adscrita al Ministerio de Educación Superior.
+        </p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          Nuestros accionistas principales son la <strong class="text-eict-cyan">Universidad de Holguín</strong> (80%) y la <strong class="text-eict-cyan">Universidad de Moa Dr. Antonio Núñez Jiménez</strong> (20%).
+        </p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          Estamos enfocados en satisfacer las necesidades del sector empresarial y de servicios, con profesionales de alto nivel académico y científico en diferentes áreas del conocimiento.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <Card class="bg-eict-gray-light/50 dark:bg-slate-800 border-l-4 border-eict-cyan">
+          <div class="p-6">
+            <div class="w-12 h-12 bg-eict-cyan/20 rounded-full flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-eict-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm1-13h-2v6h2zm0 8h-2v2h2z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-eict-purple dark:text-white mb-3">Misión</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              Somos una empresa de interfaz enfocada en la comercialización de bienes y servicios basados en la ciencia, tecnología e innovación y el vínculo Universidad-Empresa.
+            </p>
+          </div>
+        </Card>
+
+        <Card class="bg-eict-gray-light/50 dark:bg-slate-800 border-l-4 border-eict-purple">
+          <div class="p-6">
+            <div class="w-12 h-12 bg-eict-purple/20 rounded-full flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-eict-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-eict-purple dark:text-white mb-3">Visión</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              Ser una empresa líder en la comercialización de bienes y servicios basados en la ciencia, tecnología e innovación.
+            </p>
+          </div>
+        </Card>
+      </div>
+    </div>
+
+    <div class="mt-16">
+      <h3 class="text-2xl font-bold text-center text-eict-purple dark:text-white mb-10">Objetivos Estratégicos</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          { num: '01', title: 'Impacto socioeconómico', desc: 'Impulsar el impacto de la ciencia, tecnología e innovación en el desarrollo del país.' },
+          { num: '02', title: 'Gestión de proyectos', desc: 'Gestionar proyectos demandados por el sector empresarial y de servicios.' },
+          { num: '03', title: 'Infraestructura', desc: 'Contribuir a la infraestructura e instalaciones especializadas.' },
+          { num: '04', title: 'Fondos para desarrollo', desc: 'Destinar fondos para desarrollo, fomento y nuevos proyectos.' },
+          { num: '05', title: 'Comercialización internacional', desc: 'Gestionar comercialización de productos académicos internacionalmente.' },
+          { num: '06', title: 'Transferencia tecnológica', desc: 'Contribuir a la transferencia de tecnologías.' },
+          { num: '07', title: 'Eventos científicos', desc: 'Promover, organizar y realizar eventos científicos.' },
+          { num: '08', title: 'Sostenibilidad', desc: 'Garantizar la sostenibilidad de la empresa.' },
+        ].map(obj => (
+          <div class="relative p-6 bg-eict-gray-light/30 dark:bg-slate-800 rounded-xl group hover:bg-eict-cyan-light/20 dark:hover:bg-slate-700 transition-all duration-300">
+            <span class="absolute top-4 right-4 text-4xl font-bold text-eict-cyan/10">{obj.num}</span>
+            <h4 class="text-lg font-semibold text-eict-purple dark:text-white mb-2 relative z-10">{obj.title}</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400 relative z-10">{obj.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,36 @@
+---
+import SectionTitle from '../ui/SectionTitle.astro';
+---
+
+<section id="productos" class="py-20 bg-white dark:bg-slate-900">
+  <div class="container mx-auto px-4">
+    <SectionTitle
+      title="Portafolio"
+      subtitle="Explora nuestros productos y servicios académico-científicos"
+      centered
+    />
+
+    <div class="flex flex-col items-center justify-center py-20">
+      <div class="w-24 h-24 bg-eict-gray-light dark:bg-slate-800 rounded-full flex items-center justify-center mb-6">
+        <svg class="w-12 h-12 text-eict-gray-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <h3 class="text-2xl font-bold text-eict-purple dark:text-white mb-4">Próximamente</h3>
+      <p class="text-gray-600 dark:text-gray-400 text-center max-w-md mb-8">
+        Estamos trabajando en nuevos productos y servicios basados en la ciencia, tecnología e innovación. ¡Mantente atento!
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <span class="px-4 py-2 bg-eict-cyan-light/30 dark:bg-slate-800 text-eict-purple dark:text-eict-cyan rounded-full text-sm font-medium">
+          Intangibles académicos
+        </span>
+        <span class="px-4 py-2 bg-eict-cyan-light/30 dark:bg-slate-800 text-eict-purple dark:text-eict-cyan rounded-full text-sm font-medium">
+          Tecnologías-transferibles
+        </span>
+        <span class="px-4 py-2 bg-eict-cyan-light/30 dark:bg-slate-800 text-eict-purple dark:text-eict-cyan rounded-full text-sm font-medium">
+          Servicios profesionales
+        </span>
+      </div>
+    </div>
+  </div>
+</section>

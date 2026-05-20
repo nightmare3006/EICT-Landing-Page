@@ -1,0 +1,66 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: string;
+}
+
+const {
+  title = 'EICT S.A. - Solucionamos con ciencia',
+  description = 'Sociedad de Interfaz de Ciencia y Tecnología. Conectamos la ciencia con la empresa para impulsar la innovación en Cuba.',
+  image = '/logo-eict.svg',
+  type = 'website'
+} = Astro.props;
+
+const siteUrl = 'https://eict-sa.netlify.app';
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="author" content="EICT S.A." />
+<meta name="robots" content="index, follow" />
+
+<meta property="og:type" content={type} />
+<meta property="og:url" content={siteUrl} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={`${siteUrl}${image}`} />
+<meta property="og:locale" content="es_CU" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={`${siteUrl}${image}`} />
+
+<link rel="canonical" href={siteUrl} />
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "EICT S.A.",
+    "alternateName": "Sociedad de Interfaz de Ciencia y Tecnología S.A.",
+    "url": "https://eict-sa.netlify.app",
+    "logo": "https://eict-sa.netlify.app/logo-eict.svg",
+    "description": "Empresa de interfaz enfocada en la comercialización de bienes y servicios basados en la ciencia, tecnología e innovación.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Calle 11, No 2, entre Ave. Jorge Dimitrov y calle 10, Reparto Pedro Díaz Coello",
+      "addressLocality": "Holguín",
+      "addressCountry": "CU"
+    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+53-24-483146",
+        "email": "eict@uho.edu.cu",
+        "contactType": "customer service"
+      }
+    ],
+    "sameAs": [
+      "https://www.facebook.com/EICT-S-A-123456789",
+      "https://www.instagram.com/eict-s-a"
+    ]
+  }
+</script>

@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Hero from '../components/sections/Hero.astro';
+import About from '../components/sections/About.astro';
+import Services from '../components/sections/Services.astro';
+import Values from '../components/sections/Values.astro';
+import Products from '../components/sections/Products.astro';
+import Contact from '../components/sections/Contact.astro';
+import WhatsAppFloat from '../components/marketing/WhatsAppFloat.astro';
+---
+
+<Layout
+  title="EICT S.A. - Solucionamos con ciencia"
+  description="Sociedad de Interfaz de Ciencia y Tecnología. Conectamos la ciencia con la empresa para impulsar la innovación en Cuba."
+>
+  <Header />
+  <main>
+    <Hero />
+    <About />
+    <Services />
+    <Values />
+    <Products />
+    <Contact />
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+</Layout>

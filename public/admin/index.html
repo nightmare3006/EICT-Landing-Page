@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - EICT S.A.</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  </head>
+  <body>
+    <script src="https://unpkg.com/decap-cms@3.1.6/dist/decap-cms.js"></script>
+    <script>
+      CMS.init({
+        config: {
+          backend: {
+            name: 'git-gateway',
+            branch: 'main'
+          },
+          media_folder: 'public/images/uploads',
+          public_folder: '/images/uploads',
+          publish_mode: 'editorial_workflow',
+          site_url: 'https://eict-sa.netlify.app',
+          collections: [
+            {
+              name: 'servicios',
+              label: 'Servicios',
+              folder: 'src/content/servicios',
+              create: true,
+              delete: true,
+              slug: '{{slug}}',
+              fields: [
+                { label: 'Título', name: 'title', widget: 'string', required: true },
+                { label: 'Descripción', name: 'description', widget: 'text', required: true },
+                { label: 'Categoría', name: 'category', widget: 'select', options: ['consultoria', 'cientifico', 'eventos', 'proyectos', 'internacional'], required: true },
+                { label: 'Orden', name: 'order', widget: 'number', default: 0 }
+              ]
+            },
+            {
+              name: 'contactos',
+              label: 'Contactos',
+              folder: 'src/content/contactos',
+              create: true,
+              delete: true,
+              slug: '{{slug}}',
+              fields: [
+                { label: 'Área', name: 'area', widget: 'select', options: ['director', 'juridica', 'rrhh', 'economia'], required: true },
+                { label: 'Nombre', name: 'name', widget: 'string', required: true },
+                { label: 'Cargo', name: 'position', widget: 'string', required: true },
+                { label: 'Email', name: 'email', widget: 'string', required: true },
+                { label: 'Teléfono', name: 'phone', widget: 'string', required: true }
+              ]
+            }
+          ]
+        }
+      });
+    </script>
+  </body>
+</html>
