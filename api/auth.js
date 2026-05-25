@@ -4,6 +4,7 @@ const SITE_URL = process.env.SITE_URL || 'https://eict.vercel.app';
 
 export default async (req, res) => {
   const { code } = req.query;
+  const redirectUri = SITE_URL + '/api/auth';
 
   if (code) {
     try {
@@ -17,6 +18,7 @@ export default async (req, res) => {
           client_id: CLIENT_ID,
           client_secret: CLIENT_SECRET,
           code,
+          redirect_uri: redirectUri,
         }),
       });
 
@@ -46,17 +48,16 @@ export default async (req, res) => {
         res.setHeader('Content-Type', 'text/html');
         res.status(200).send(content);
       } else {
-        res.status(400).send('Error: ' + JSON.stringify(data));
+        res.status(400).json({ error: data.error, error_description: data.error_description });
       }
     } catch (error) {
-      res.status(500).send('Server error: ' + error.message);
+      res.status(500).json({ error: 'Server error', error_description: error.message });
     }
   } else {
-    const redirectUri = SITE_URL + '/api/auth';
     const githubAuthUrl =
       'https://github.com/login/oauth/authorize?client_id=' + CLIENT_ID +
       '&redirect_uri=' + encodeURIComponent(redirectUri) +
       '&scope=repo,user&response_type=code';
-    res.redirect(301, githubAuthUrl);
+    res.redirect(302, githubAuthUrl);
   }
 };
