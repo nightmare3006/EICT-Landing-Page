@@ -28,19 +28,26 @@ export default async (req, res) => {
     const data = await r.json();
 
     if (data.access_token) {
-      res.status(200).send(
-        '<html><body><script>' +
-        'window.opener.postMessage("authorization:github:' + data.access_token + ':' + (data.scope || '') + '","*");' +
-        'window.close();' +
-        '</script></body></html>'
-      );
+      const content = '<html><body><script>' +
+        'window.opener.postMessage(' + JSON.stringify({
+          type: 'authorization_response',
+          data: {
+            token: data.access_token,
+            provider: 'github',
+            scope: data.scope || ''
+          }
+        }) + ', "*");' +
+        'setTimeout(function() { window.close(); }, 200);' +
+        '</script></body></html>';
+      res.status(200).send(content);
     } else {
-      res.status(400).send(
-        '<html><body><p>Error: ' + data.error + '</p><p>' + data.error_description + '</p>' +
-        '<a href="/admin/">Volver e intentar de nuevo</a></body></html>'
-      );
+      const content = '<html><body>' +
+        '<h2>Error de autenticaci\u00f3n</h2>' +
+        '<p>' + (data.error_description || data.error || 'Error desconocido') + '</p>' +
+        '<a href="/admin/">Volver e intentar de nuevo</a></body></html>';
+      res.status(400).send(content);
     }
   } catch (err) {
-    res.status(500).send('<html><body><p>Server error: ' + err.message + '</p></body></html>');
+    res.status(500).send('<html><body><h2>Error del servidor</h2><p>' + err.message + '</p></body></html>');
   }
 };
