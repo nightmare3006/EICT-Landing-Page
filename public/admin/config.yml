@@ -2,7 +2,7 @@ backend:
   name: github
   repo: nightmare3006/EICT-Landing-Page
   branch: main
-  base_url: https://eict-landing.vercel.app
+  base_url: https://eict.vercel.app
   auth_endpoint: api/auth
 
 media_folder: "public/images/uploads"
@@ -10,8 +10,8 @@ public_folder: "/images/uploads"
 
 publish_mode: editorial_workflow
 
-site_url: https://eict-landing.vercel.app
-display_url: https://eict-landing.vercel.app
+site_url: https://eict.vercel.app
+display_url: https://eict.vercel.app
 logo_url: /logo-eict.svg
 
 collections:

@@ -4,6 +4,6 @@ import tailwind from '@astrojs/tailwind';
 export default defineConfig({
   integrations: [tailwind()],
   output: 'static',
-  site: 'https://eict-landing.vercel.app',
+  site: 'https://eict.vercel.app',
   compressHTML: true,
 });

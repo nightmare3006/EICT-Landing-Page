@@ -4,8 +4,110 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin - EICT S.A.</title>
+    <script>
+      window.CMS_MANUAL_INIT = true;
+    </script>
   </head>
   <body>
     <script src="https://unpkg.com/decap-cms@3.1.6/dist/decap-cms.js"></script>
+    <script>
+      CMS.init({
+        config: {
+          backend: {
+            name: 'github',
+            repo: 'nightmare3006/EICT-Landing-Page',
+            branch: 'main',
+            base_url: 'https://eict.vercel.app',
+            auth_endpoint: 'api/auth'
+          },
+          media_folder: 'public/images/uploads',
+          public_folder: '/images/uploads',
+          publish_mode: 'editorial_workflow',
+          site_url: 'https://eict.vercel.app',
+          display_url: 'https://eict.vercel.app',
+          logo_url: '/logo-eict.svg',
+          collections: [
+            {
+              name: 'servicios',
+              label: 'Servicios',
+              folder: 'src/content/servicios',
+              create: true,
+              delete: true,
+              slug: '{{slug}}',
+              fields: [
+                { label: 'Título', name: 'title', widget: 'string', required: true },
+                { label: 'Descripción', name: 'description', widget: 'text', required: true },
+                { label: 'Imagen', name: 'image', widget: 'image', required: false },
+                { label: 'Precio', name: 'price', widget: 'string', required: false },
+                { label: 'Categoría', name: 'category', widget: 'select', options: ['consultoria', 'cientifico', 'eventos', 'proyectos', 'internacional'], required: true },
+                { label: 'Icono', name: 'icon', widget: 'select', options: ['users', 'book', 'flask', 'calendar', 'folder', 'globe'], required: false },
+                { label: 'Contenido', name: 'body', widget: 'markdown', required: false },
+                { label: 'Orden', name: 'order', widget: 'number', default: 0, required: false }
+              ]
+            },
+            {
+              name: 'productos',
+              label: 'Productos',
+              folder: 'src/content/productos',
+              create: true,
+              delete: true,
+              slug: '{{slug}}',
+              fields: [
+                { label: 'Nombre', name: 'title', widget: 'string', required: true },
+                { label: 'Descripción', name: 'description', widget: 'text', required: true },
+                { label: 'Imagen', name: 'image', widget: 'image', required: false },
+                { label: 'Precio', name: 'price', widget: 'string', required: false },
+                { label: 'Disponible', name: 'available', widget: 'boolean', default: true },
+                { label: 'Categoría', name: 'category', widget: 'select', options: ['intangible', 'tecnologia', 'servicio', 'otro'], required: false },
+                { label: 'Contenido', name: 'body', widget: 'markdown', required: false }
+              ]
+            },
+            {
+              name: 'contactos',
+              label: 'Contactos',
+              folder: 'src/content/contactos',
+              create: true,
+              delete: true,
+              slug: '{{slug}}',
+              fields: [
+                { label: 'Área', name: 'area', widget: 'select', options: ['director', 'juridica', 'rrhh', 'economia'], required: true },
+                { label: 'Nombre', name: 'name', widget: 'string', required: true },
+                { label: 'Cargo', name: 'position', widget: 'string', required: true },
+                { label: 'Email', name: 'email', widget: 'string', required: true },
+                { label: 'Teléfono', name: 'phone', widget: 'string', required: true },
+                { label: 'Horario', name: 'schedule', widget: 'string', required: false },
+                { label: 'Foto', name: 'photo', widget: 'image', required: false },
+                { label: 'Descripción', name: 'body', widget: 'markdown', required: false }
+              ]
+            },
+            {
+              name: 'empresa',
+              label: 'Información General',
+              files: [
+                {
+                  label: 'Sobre Nosotros',
+                  name: 'about',
+                  file: 'src/content/empresa/about.md',
+                  fields: [
+                    { label: 'Título', name: 'title', widget: 'string', default: '¿Quiénes somos?' },
+                    { label: 'Contenido', name: 'body', widget: 'markdown' }
+                  ]
+                },
+                {
+                  label: 'Misión y Visión',
+                  name: 'mision-vision',
+                  file: 'src/content/empresa/mision-vision.md',
+                  fields: [
+                    { label: 'Misión', name: 'mision', widget: 'text' },
+                    { label: 'Visión', name: 'vision', widget: 'text' },
+                    { label: 'Objeto Social', name: 'objeto', widget: 'text' }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      });
+    </script>
   </body>
 </html>

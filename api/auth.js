@@ -1,6 +1,6 @@
 const CLIENT_ID = process.env.OAUTH_CLIENT_ID;
 const CLIENT_SECRET = process.env.OAUTH_CLIENT_SECRET;
-const SITE_URL = process.env.SITE_URL || 'https://eict-landing.vercel.app';
+const SITE_URL = process.env.SITE_URL || 'https://eict.vercel.app';
 
 export default async (req, res) => {
   const { code } = req.query;
