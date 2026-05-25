@@ -1,14 +1,16 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: nightmare3006/EICT-Landing-Page
   branch: main
+  base_url: https://api.github.com
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
 publish_mode: editorial_workflow
 
-site_url: https://eict-sa.netlify.app
-display_url: https://eict-sa.netlify.app
+site_url: https://eict-landing.vercel.app
+display_url: https://eict-landing.vercel.app
 logo_url: /logo-eict.svg
 
 collections:

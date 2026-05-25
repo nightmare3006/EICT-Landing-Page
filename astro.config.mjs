@@ -4,7 +4,6 @@ import tailwind from '@astrojs/tailwind';
 export default defineConfig({
   integrations: [tailwind()],
   output: 'static',
-  site: 'https://eict-sa.netlify.app',
+  site: 'https://eict-landing.vercel.app',
   compressHTML: true,
-  exclude: ['admin/**'],
 });
