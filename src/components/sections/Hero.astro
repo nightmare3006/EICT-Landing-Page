@@ -3,34 +3,44 @@ import Button from '../ui/Button.astro';
 import ShareButtons from '../marketing/ShareButtons.astro';
 ---
 
-<section id="inicio" class="min-h-[90vh] flex items-center justify-center relative overflow-hidden">
-  <div class="absolute inset-0 bg-gradient-to-br from-eict-gray-light via-white to-eict-cyan-light/30 dark:from-slate-900 dark:via-slate-800 dark:to-eict-purple/30"></div>
-  
-  <div class="absolute inset-0 opacity-5">
+<section id="inicio" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-br from-eict-gray-light via-white to-eict-cyan-light/30 dark:from-slate-900 dark:via-slate-800 dark:to-eict-purple/20"></div>
+
+  <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
     <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-          <circle cx="20" cy="20" r="2" fill="currentColor" class="text-eict-purple" />
+        <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+          <circle cx="30" cy="30" r="1.5" fill="currentColor" class="text-eict-purple" />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#grid)" />
     </svg>
   </div>
 
-  <div class="relative z-10 container mx-auto px-4 text-center">
-    <div class="animate-fade-in">
-      <h1 class="text-5xl md:text-7xl font-bold text-eict-purple dark:text-white mb-4">
-        EICT S.A.
+  <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-eict-cyan/5 dark:bg-eict-cyan/10 rounded-full blur-3xl animate-float"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-eict-purple/5 dark:bg-eict-purple/10 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
+
+  <div class="relative z-10 container mx-auto px-4 text-center pt-20 pb-24">
+    <div class="max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-eict-cyan/10 dark:bg-eict-cyan/20 rounded-full mb-8">
+        <span class="w-2 h-2 bg-eict-cyan rounded-full animate-pulse-glow"></span>
+        <span class="text-sm font-medium text-eict-cyan">Sociedad de Interfaz de Ciencia y Tecnología</span>
+      </div>
+
+      <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-eict-purple dark:text-white mb-4 animate-fade-in">
+        EICT <span class="text-eict-cyan">S.A.</span>
       </h1>
-      <p class="text-2xl md:text-3xl text-eict-cyan font-semibold mb-6">
+
+      <p class="text-2xl md:text-3xl lg:text-4xl text-eict-purple-light dark:text-eict-cyan font-light mb-6 animate-fade-in-up">
         Solucionamos con ciencia
       </p>
-      <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-10">
-        Conectamos la ciencia con la empresa para transformar ideas en soluciones innovadoras.
+
+      <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-in-up" style="animation-delay: 0.15s">
+        Conectamos la ciencia con la empresa para transformar ideas en soluciones innovadoras que impulsan el desarrollo.
       </p>
 
-      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-        <Button href="#servicios" variant="primary" size="lg">
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-fade-in-up" style="animation-delay: 0.3s">
+        <Button href="#servicios" variant="primary" size="lg" class="shadow-lg shadow-eict-cyan/20 hover:shadow-eict-cyan/30">
           Conoce nuestros servicios
         </Button>
         <Button href="#contacto" variant="outline" size="lg">
@@ -38,17 +48,18 @@ import ShareButtons from '../marketing/ShareButtons.astro';
         </Button>
       </div>
 
-      <div class="flex justify-center">
+      <div class="animate-fade-in-up" style="animation-delay: 0.45s">
         <ShareButtons />
       </div>
     </div>
+  </div>
 
-    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-      <a href="#nosotros" class="text-eict-purple dark:text-white hover:text-eict-cyan transition-colors duration-200" aria-label="Ir hacia abajo">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
-      </a>
-    </div>
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+    <a href="#nosotros" class="flex flex-col items-center gap-1 text-eict-purple dark:text-white/60 hover:text-eict-cyan transition-colors duration-200 group" aria-label="Ir hacia abajo">
+      <span class="text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200">Descubre más</span>
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+    </a>
   </div>
 </section>

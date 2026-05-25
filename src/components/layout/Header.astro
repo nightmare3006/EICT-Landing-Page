@@ -10,40 +10,42 @@ const navItems = [
 ];
 ---
 
-<header id="header" class="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-200 dark:border-slate-700 transition-colors duration-300">
-  <nav class="container mx-auto px-4 py-4">
-    <div class="flex items-center justify-between">
-      <a href="#inicio" class="flex items-center space-x-2 group">
-        <div class="w-10 h-10 bg-eict-purple rounded-lg flex items-center justify-center">
-          <span class="text-white font-bold text-lg">E</span>
+<header id="header" class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-gray-200/50 dark:border-slate-700/50 transition-all duration-300">
+  <nav class="container mx-auto px-4">
+    <div class="flex items-center justify-between h-16 md:h-20">
+      <a href="#inicio" class="flex items-center gap-2.5 group" aria-label="Ir al inicio">
+        <div class="w-9 h-9 md:w-10 md:h-10 bg-gradient-to-br from-eict-purple to-eict-purple-dark rounded-xl flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow duration-300">
+          <span class="text-white font-bold text-base md:text-lg">E</span>
         </div>
-        <div class="flex flex-col">
-          <span class="text-xl font-bold text-eict-purple dark:text-white">EICT</span>
-          <span class="text-xs text-eict-gray-blue dark:text-gray-400 -mt-1">S.A.</span>
+        <div class="flex flex-col leading-none">
+          <span class="text-lg md:text-xl font-bold text-eict-purple dark:text-white tracking-tight">EICT</span>
+          <span class="text-[10px] md:text-xs text-eict-gray-blue dark:text-gray-400 font-medium">S.A.</span>
         </div>
       </a>
 
-      <div class="hidden md:flex items-center space-x-8">
+      <div class="hidden md:flex items-center gap-1">
         {navItems.map(item => (
           <a
             href={item.href}
-            class="text-gray-700 dark:text-gray-300 hover:text-eict-cyan dark:hover:text-eict-cyan transition-colors duration-200 font-medium"
+            class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-eict-cyan dark:hover:text-eict-cyan rounded-lg hover:bg-eict-cyan/5 dark:hover:bg-eict-cyan/10 transition-all duration-200"
           >
             {item.label}
           </a>
         ))}
-        <ThemeToggle />
+        <div class="ml-2 pl-2 border-l border-gray-200 dark:border-slate-700">
+          <ThemeToggle />
+        </div>
       </div>
 
-      <div class="md:hidden flex items-center space-x-4">
+      <div class="md:hidden flex items-center gap-2">
         <ThemeToggle />
         <button
           id="menu-toggle"
-          class="p-2 text-gray-700 dark:text-gray-300 hover:text-eict-cyan"
+          class="p-2.5 text-gray-600 dark:text-gray-300 hover:text-eict-cyan hover:bg-eict-cyan/5 dark:hover:bg-eict-cyan/10 rounded-xl transition-all duration-200"
           aria-label="Abrir menú"
           aria-expanded="false"
         >
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
@@ -53,22 +55,22 @@ const navItems = [
 </header>
 
 <div id="mobile-menu" class="fixed inset-0 z-50 hidden" aria-hidden="true">
-  <div class="absolute inset-0 bg-black/50" id="menu-overlay"></div>
-  <div class="absolute right-0 top-0 h-full w-64 bg-white dark:bg-slate-900 shadow-xl transform translate-x-full transition-transform duration-300" id="menu-panel">
+  <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" id="menu-overlay"></div>
+  <div class="absolute right-0 top-0 h-full w-72 bg-white dark:bg-slate-900 shadow-2xl transform translate-x-full transition-transform duration-300 ease-out" id="menu-panel">
     <div class="p-6">
-      <div class="flex justify-between items-center mb-8">
-        <span class="text-xl font-bold text-eict-purple dark:text-white">Menú</span>
-        <button id="menu-close" class="p-2 text-gray-700 dark:text-gray-300 hover:text-eict-cyan" aria-label="Cerrar menú">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="flex items-center justify-between mb-8">
+        <span class="text-lg font-bold text-eict-purple dark:text-white">Menú</span>
+        <button id="menu-close" class="p-2 text-gray-500 dark:text-gray-400 hover:text-eict-cyan hover:bg-eict-cyan/5 dark:hover:bg-eict-cyan/10 rounded-xl transition-all duration-200" aria-label="Cerrar menú">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
-      <nav class="space-y-4">
+      <nav class="space-y-1">
         {navItems.map(item => (
           <a
             href={item.href}
-            class="block py-3 px-4 text-gray-700 dark:text-gray-300 hover:bg-eict-gray-light dark:hover:bg-slate-800 rounded-lg transition-colors duration-200"
+            class="block py-3 px-4 text-gray-700 dark:text-gray-300 hover:text-eict-cyan hover:bg-eict-cyan/5 dark:hover:bg-eict-cyan/10 rounded-xl transition-all duration-200 font-medium"
           >
             {item.label}
           </a>
@@ -85,29 +87,39 @@ const navItems = [
   const menuOverlay = document.getElementById('menu-overlay');
   const menuPanel = document.getElementById('menu-panel');
 
-  function openMenu() {
-    mobileMenu.classList.remove('hidden');
-    mobileMenu.setAttribute('aria-hidden', 'false');
-    menuToggle.setAttribute('aria-expanded', 'true');
-    setTimeout(() => {
-      menuPanel.classList.remove('translate-x-full');
-    }, 10);
+  if (menuToggle && menuClose && mobileMenu && menuOverlay && menuPanel) {
+    function openMenu() {
+      mobileMenu.classList.remove('hidden');
+      mobileMenu.setAttribute('aria-hidden', 'false');
+      menuToggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(() => {
+        menuPanel.classList.remove('translate-x-full');
+      });
+    }
+
+    function closeMenu() {
+      menuPanel.classList.add('translate-x-full');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      }, 300);
+    }
+
+    menuToggle.addEventListener('click', openMenu);
+    menuClose.addEventListener('click', closeMenu);
+    menuOverlay.addEventListener('click', closeMenu);
+
+    document.querySelectorAll('#mobile-menu nav a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+        closeMenu();
+      }
+    });
   }
-
-  function closeMenu() {
-    menuPanel.classList.add('translate-x-full');
-    mobileMenu.setAttribute('aria-hidden', 'true');
-    menuToggle.setAttribute('aria-expanded', 'false');
-    setTimeout(() => {
-      mobileMenu.classList.add('hidden');
-    }, 300);
-  }
-
-  menuToggle.addEventListener('click', openMenu);
-  menuClose.addEventListener('click', closeMenu);
-  menuOverlay.addEventListener('click', closeMenu);
-
-  document.querySelectorAll('#mobile-menu nav a').forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
 </script>

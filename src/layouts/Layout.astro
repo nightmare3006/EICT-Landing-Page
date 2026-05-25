@@ -14,18 +14,18 @@ const { title, description } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <SEO title={title} description={description} />
-    
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
     <script is:inline>
       (function() {
-        const theme = localStorage.getItem('theme') || 
+        const theme = localStorage.getItem('theme') ||
           (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         if (theme === 'dark') {
           document.documentElement.classList.add('dark');
@@ -33,10 +33,10 @@ const { title, description } = Astro.props;
       })();
     </script>
   </head>
-  
-  <body class="bg-white dark:bg-slate-900 text-gray-900 dark:text-white font-sans antialiased transition-colors duration-300">
+
+  <body class="bg-white dark:bg-slate-900 text-gray-900 dark:text-gray-100 font-sans antialiased transition-colors duration-300">
     <slot />
-    
+
     <script>
       document.getElementById('theme-toggle')?.addEventListener('click', () => {
         const isDark = document.documentElement.classList.toggle('dark');

@@ -3,7 +3,7 @@ import SectionTitle from '../ui/SectionTitle.astro';
 import Card from '../ui/Card.astro';
 ---
 
-<section id="nosotros" class="py-20 bg-white dark:bg-slate-900">
+<section id="nosotros" class="py-24 bg-white dark:bg-slate-900">
   <div class="container mx-auto px-4">
     <SectionTitle
       title="¿Quiénes somos?"
@@ -11,81 +11,109 @@ import Card from '../ui/Card.astro';
       centered
     />
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-      <div class="space-y-6">
-        <div class="flex flex-wrap gap-3 mb-6">
-          <span class="px-4 py-2 bg-eict-cyan-light/30 dark:bg-eict-cyan/20 text-eict-purple dark:text-eict-cyan rounded-full text-sm font-medium">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 mb-20">
+      <div class="lg:col-span-3 space-y-6">
+        <div class="flex flex-wrap gap-3">
+          <span class="px-4 py-2 bg-eict-cyan/10 text-eict-cyan rounded-full text-sm font-semibold border border-eict-cyan/20">
             Capital 100% cubano
           </span>
-          <span class="px-4 py-2 bg-eict-cyan-light/30 dark:bg-eict-cyan/20 text-eict-purple dark:text-eict-cyan rounded-full text-sm font-medium">
+          <span class="px-4 py-2 bg-eict-purple/10 text-eict-purple-light dark:text-eict-cyan rounded-full text-sm font-semibold border border-eict-purple/20">
             Decreto 363/2019
+          </span>
+          <span class="px-4 py-2 bg-eict-cyan/10 text-eict-cyan rounded-full text-sm font-semibold border border-eict-cyan/20">
+            Universidad-Empresa
           </span>
         </div>
 
-        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
-          <strong class="text-eict-purple dark:text-white">EICT S.A. - Sociedad de Interfaz de Ciencia y Tecnología</strong> es una empresa mercantil capital 100% cubano, adscrita al Ministerio de Educación Superior.
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
+          <strong class="text-eict-purple dark:text-white">EICT S.A.</strong> es una sociedad mercantil de capital 100% cubano, adscrita al Ministerio de Educación Superior, creada para ser el puente entre la academia y el sector productivo.
         </p>
 
-        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
-          Nuestros accionistas principales son la <strong class="text-eict-cyan">Universidad de Holguín</strong> (80%) y la <strong class="text-eict-cyan">Universidad de Moa Dr. Antonio Núñez Jiménez</strong> (20%).
-        </p>
+        <div class="grid grid-cols-2 gap-4 p-6 bg-eict-gray-light/30 dark:bg-slate-800/50 rounded-2xl border border-eict-gray-light dark:border-slate-700/50">
+          <div class="text-center">
+            <p class="text-3xl font-bold text-eict-cyan">80%</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Universidad de Holguín</p>
+          </div>
+          <div class="text-center">
+            <p class="text-3xl font-bold text-eict-purple-light">20%</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Universidad de Moa</p>
+          </div>
+        </div>
 
-        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+        <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
           Estamos enfocados en satisfacer las necesidades del sector empresarial y de servicios, con profesionales de alto nivel académico y científico en diferentes áreas del conocimiento.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <Card class="bg-eict-gray-light/50 dark:bg-slate-800 border-l-4 border-eict-cyan">
+      <div class="lg:col-span-2 space-y-6">
+        <Card hover="none" class="border-l-4 border-l-eict-cyan">
           <div class="p-6">
-            <div class="w-12 h-12 bg-eict-cyan/20 rounded-full flex items-center justify-center mb-4">
-              <svg class="w-6 h-6 text-eict-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm1-13h-2v6h2zm0 8h-2v2h2z" />
-              </svg>
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-eict-cyan/10 rounded-xl flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6 text-eict-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm1-13h-2v6h2zm0 8h-2v2h2z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-eict-purple dark:text-white mb-2">Misión</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                  Somos una empresa de interfaz enfocada en la comercialización de bienes y servicios basados en la ciencia, tecnología e innovación y el vínculo Universidad-Empresa.
+                </p>
+              </div>
             </div>
-            <h3 class="text-lg font-bold text-eict-purple dark:text-white mb-3">Misión</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-              Somos una empresa de interfaz enfocada en la comercialización de bienes y servicios basados en la ciencia, tecnología e innovación y el vínculo Universidad-Empresa.
-            </p>
           </div>
         </Card>
 
-        <Card class="bg-eict-gray-light/50 dark:bg-slate-800 border-l-4 border-eict-purple">
+        <Card hover="none" class="border-l-4 border-l-eict-purple-light">
           <div class="p-6">
-            <div class="w-12 h-12 bg-eict-purple/20 rounded-full flex items-center justify-center mb-4">
-              <svg class="w-6 h-6 text-eict-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-eict-purple/10 rounded-xl flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6 text-eict-purple-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-eict-purple dark:text-white mb-2">Visión</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                  Ser una empresa líder en la comercialización de bienes y servicios basados en la ciencia, tecnología e innovación por la excelencia y profesionalidad de nuestros trabajadores.
+                </p>
+              </div>
             </div>
-            <h3 class="text-lg font-bold text-eict-purple dark:text-white mb-3">Visión</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-              Ser una empresa líder en la comercialización de bienes y servicios basados en la ciencia, tecnología e innovación.
-            </p>
           </div>
         </Card>
       </div>
     </div>
 
-    <div class="mt-16">
-      <h3 class="text-2xl font-bold text-center text-eict-purple dark:text-white mb-10">Objetivos Estratégicos</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[
-          { num: '01', title: 'Impacto socioeconómico', desc: 'Impulsar el impacto de la ciencia, tecnología e innovación en el desarrollo del país.' },
-          { num: '02', title: 'Gestión de proyectos', desc: 'Gestionar proyectos demandados por el sector empresarial y de servicios.' },
-          { num: '03', title: 'Infraestructura', desc: 'Contribuir a la infraestructura e instalaciones especializadas.' },
-          { num: '04', title: 'Fondos para desarrollo', desc: 'Destinar fondos para desarrollo, fomento y nuevos proyectos.' },
-          { num: '05', title: 'Comercialización internacional', desc: 'Gestionar comercialización de productos académicos internacionalmente.' },
-          { num: '06', title: 'Transferencia tecnológica', desc: 'Contribuir a la transferencia de tecnologías.' },
-          { num: '07', title: 'Eventos científicos', desc: 'Promover, organizar y realizar eventos científicos.' },
-          { num: '08', title: 'Sostenibilidad', desc: 'Garantizar la sostenibilidad de la empresa.' },
-        ].map(obj => (
-          <div class="relative p-6 bg-eict-gray-light/30 dark:bg-slate-800 rounded-xl group hover:bg-eict-cyan-light/20 dark:hover:bg-slate-700 transition-all duration-300">
-            <span class="absolute top-4 right-4 text-4xl font-bold text-eict-cyan/10">{obj.num}</span>
-            <h4 class="text-lg font-semibold text-eict-purple dark:text-white mb-2 relative z-10">{obj.title}</h4>
-            <p class="text-sm text-gray-600 dark:text-gray-400 relative z-10">{obj.desc}</p>
-          </div>
-        ))}
+    <div class="relative">
+      <div class="absolute inset-0 bg-gradient-to-r from-eict-cyan/5 via-transparent to-eict-purple/5 rounded-3xl"></div>
+      <div class="relative p-8 md:p-12">
+        <h3 class="text-2xl md:text-3xl font-bold text-center text-eict-purple dark:text-white mb-4">Objetivos Estratégicos</h3>
+        <p class="text-center text-gray-500 dark:text-gray-400 mb-12 max-w-2xl mx-auto">Los pilares que guían nuestra gestión empresarial</p>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          {[
+            { num: '01', title: 'Impacto socioeconómico', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+            { num: '02', title: 'Gestión de proyectos', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4' },
+            { num: '03', title: 'Infraestructura', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
+            { num: '04', title: 'Fondos y desarrollo', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+            { num: '05', title: 'Comercialización internacional', icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+            { num: '06', title: 'Transferencia tecnológica', icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4' },
+            { num: '07', title: 'Eventos científicos', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
+            { num: '08', title: 'Sostenibilidad', icon: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4' },
+          ].map(obj => (
+            <div class="group relative p-5 bg-white dark:bg-slate-800/60 rounded-2xl border border-gray-100 dark:border-slate-700/50 hover:border-eict-cyan/30 hover:shadow-lg hover:shadow-eict-cyan/5 transition-all duration-300">
+              <div class="flex items-start justify-between mb-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-eict-cyan/10 to-eict-purple/10 rounded-xl flex items-center justify-center group-hover:from-eict-cyan/20 group-hover:to-eict-purple/20 transition-all duration-300">
+                  <svg class="w-5 h-5 text-eict-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={obj.icon} />
+                  </svg>
+                </div>
+                <span class="text-2xl font-bold text-eict-cyan/10 group-hover:text-eict-cyan/20 transition-colors duration-300">{obj.num}</span>
+              </div>
+              <h4 class="font-semibold text-eict-purple dark:text-white text-sm leading-tight">{obj.title}</h4>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   </div>

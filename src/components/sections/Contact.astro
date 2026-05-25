@@ -9,6 +9,7 @@ const contactos = [
     email: 'director@eict.uho.edu.cu',
     phone: '(53) 24 483146',
     schedule: 'Lunes a Viernes, 8:00 - 17:00',
+    color: 'from-amber-400 to-orange-500',
   },
   {
     area: 'Departamento Jurídico',
@@ -16,6 +17,7 @@ const contactos = [
     email: 'juridica@eict.uho.edu.cu',
     phone: '(53) 24 483146',
     schedule: 'Lunes a Viernes, 8:00 - 17:00',
+    color: 'from-blue-400 to-blue-600',
   },
   {
     area: 'Recursos Humanos',
@@ -23,6 +25,7 @@ const contactos = [
     email: 'rrhh@eict.uho.edu.cu',
     phone: '(53) 24 483146',
     schedule: '',
+    color: 'from-emerald-400 to-emerald-600',
   },
   {
     area: 'Economía y Finanzas / Comercial',
@@ -30,14 +33,15 @@ const contactos = [
     email: 'comercial.eict@uho.edu.cu',
     phone: '(53) 52117133',
     schedule: 'Lunes a Viernes, 8:00 - 17:00',
+    color: 'from-violet-400 to-violet-600',
   },
 ];
 
 const iconPaths: Record<string, string> = {
-  crown: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />',
-  scale: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />',
-  users: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />',
-  trending: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />',
+  crown: 'M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+  scale: 'M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3',
+  users: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+  trending: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6',
 };
 
 const socialInfo = {
@@ -47,84 +51,116 @@ const socialInfo = {
 };
 ---
 
-<section id="contacto" class="py-20 bg-gray-50 dark:bg-slate-800">
+<section id="contacto" class="py-24 bg-gray-50/50 dark:bg-slate-900">
   <div class="container mx-auto px-4">
     <SectionTitle
       title="Contáctanos"
-      subtitle="Comunícate directamente con el área que necesitas"
+      subtitle="Comunícate directamente con el área que necesitas. Estamos listos para atenderte."
       centered
     />
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
       {contactos.map(contacto => (
-        <Card>
+        <Card hover="glow" class="group">
           <div class="p-6">
-            <div class="w-14 h-14 bg-eict-cyan/20 rounded-xl flex items-center justify-center mb-4">
-              <svg class="w-7 h-7 text-eict-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24" set:html={iconPaths[contacto.icon]} />
+            <div class={`w-12 h-12 bg-gradient-to-br ${contacto.color} rounded-xl flex items-center justify-center mb-4 shadow-lg`}>
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={iconPaths[contacto.icon]} />
+              </svg>
             </div>
-            <h3 class="text-lg font-bold text-eict-purple dark:text-white mb-4">{contacto.area}</h3>
-            <div class="space-y-3">
+            <h3 class="text-base font-bold text-eict-purple dark:text-white mb-3">{contacto.area}</h3>
+            <div class="space-y-2.5">
               <div>
-                <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Email</p>
-                <a href={`mailto:${contacto.email}`} class="text-sm text-eict-cyan hover:underline block truncate">
-                  {contacto.email}
-                </a>
+                <p class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-medium">Email</p>
+                <div class="flex items-center justify-between gap-1">
+                  <a href={`mailto:${contacto.email}`} class="text-sm text-eict-cyan hover:underline truncate">
+                    {contacto.email}
+                  </a>
+                  <button
+                    class="shrink-0 p-1 text-gray-400 hover:text-eict-cyan transition-colors duration-200 copy-btn"
+                    data-copy={contacto.email}
+                    aria-label="Copiar email"
+                    title="Copiar email"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  </button>
+                </div>
               </div>
               <div>
-                <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Teléfono</p>
-                <a href={`tel:${contacto.phone}`} class="text-sm text-gray-700 dark:text-gray-300 hover:text-eict-cyan transition-colors duration-200">
-                  {contacto.phone}
-                </a>
+                <p class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-medium">Teléfono</p>
+                <div class="flex items-center justify-between gap-1">
+                  <a href={`tel:${contacto.phone}`} class="text-sm text-gray-700 dark:text-gray-300 hover:text-eict-cyan transition-colors duration-200">
+                    {contacto.phone}
+                  </a>
+                  <button
+                    class="shrink-0 p-1 text-gray-400 hover:text-eict-cyan transition-colors duration-200 copy-btn"
+                    data-copy={contacto.phone}
+                    aria-label="Copiar teléfono"
+                    title="Copiar teléfono"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  </button>
+                </div>
               </div>
               {contacto.schedule && (
-                <div>
-                  <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Horario</p>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">{contacto.schedule}</p>
+                <div class="pt-1">
+                  <p class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-medium">Horario</p>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">{contacto.schedule}</p>
                 </div>
               )}
             </div>
-            <button
-              class="mt-4 text-xs text-eict-cyan hover:underline copy-btn"
-              data-copy={contacto.email}
-              aria-label="Copiar email"
-            >
-              Copiar email
-            </button>
           </div>
         </Card>
       ))}
     </div>
 
-    <div class="bg-white dark:bg-slate-900 rounded-xl p-8 shadow-lg">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <h4 class="text-lg font-bold text-eict-purple dark:text-white mb-4">Dirección</h4>
-          <p class="text-gray-600 dark:text-gray-400 mb-6">
-            <svg class="w-5 h-5 inline-block mr-2 text-eict-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            {socialInfo.address}
-          </p>
-          <p class="text-gray-600 dark:text-gray-400">
-            <svg class="w-5 h-5 inline-block mr-2 text-eict-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            eict@uho.edu.cu / comercial.eict@uho.edu.cu
-          </p>
+    <div class="bg-white dark:bg-slate-800/80 rounded-2xl p-8 md:p-10 shadow-lg border border-gray-100 dark:border-slate-700/50">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div class="space-y-6">
+          <div>
+            <h4 class="text-lg font-bold text-eict-purple dark:text-white mb-1">Dirección</h4>
+            <p class="text-gray-500 dark:text-gray-400 text-sm">Oficinas centrales</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 bg-eict-cyan/10 rounded-xl flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-5 h-5 text-eict-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{socialInfo.address}</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 bg-eict-cyan/10 rounded-xl flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-5 h-5 text-eict-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <div>
+              <a href="mailto:eict@uho.edu.cu" class="block text-sm text-eict-cyan hover:underline">eict@uho.edu.cu</a>
+              <a href="mailto:comercial.eict@uho.edu.cu" class="block text-sm text-eict-cyan hover:underline">comercial.eict@uho.edu.cu</a>
+            </div>
+          </div>
         </div>
-        <div>
-          <h4 class="text-lg font-bold text-eict-purple dark:text-white mb-4">Síguenos</h4>
-          <div class="flex space-x-4">
-            <a href={socialInfo.facebook} target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-eict-cyan/20 rounded-xl flex items-center justify-center hover:bg-eict-cyan hover:text-white transition-colors duration-200 text-eict-cyan" aria-label="Facebook">
-              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+        <div class="space-y-6">
+          <div>
+            <h4 class="text-lg font-bold text-eict-purple dark:text-white mb-1">Síguenos</h4>
+            <p class="text-gray-500 dark:text-gray-400 text-sm">Conéctate con nosotros en redes sociales</p>
+          </div>
+          <div class="flex gap-4">
+            <a href={socialInfo.facebook} target="_blank" rel="noopener noreferrer" class="w-14 h-14 bg-gradient-to-br from-eict-cyan/10 to-eict-cyan/5 rounded-2xl flex items-center justify-center hover:from-eict-cyan hover:to-eict-cyan-dark hover:text-white transition-all duration-300 text-eict-cyan group shadow-sm" aria-label="Facebook">
+              <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
               </svg>
             </a>
-            <a href={socialInfo.instagram} target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-eict-cyan/20 rounded-xl flex items-center justify-center hover:bg-eict-cyan hover:text-white transition-colors duration-200 text-eict-cyan" aria-label="Instagram">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke-width="2" />
-                <circle cx="12" cy="12" r="4" stroke-width="2" />
+            <a href={socialInfo.instagram} target="_blank" rel="noopener noreferrer" class="w-14 h-14 bg-gradient-to-br from-eict-cyan/10 to-eict-cyan/5 rounded-2xl flex items-center justify-center hover:from-eict-cyan hover:to-eict-cyan-dark hover:text-white transition-all duration-300 text-eict-cyan group shadow-sm" aria-label="Instagram">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke-width="1.5" />
+                <circle cx="12" cy="12" r="4" stroke-width="1.5" />
                 <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
               </svg>
             </a>
@@ -141,10 +177,11 @@ const socialInfo = {
       const text = btn.getAttribute('data-copy');
       if (text) {
         await navigator.clipboard.writeText(text);
-        const originalText = btn.textContent;
-        btn.textContent = '¡Copiado!';
+        const svg = btn.querySelector('svg');
+        const original = btn.innerHTML;
+        btn.innerHTML = '<svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
         setTimeout(() => {
-          btn.textContent = originalText;
+          btn.innerHTML = original;
         }, 2000);
       }
     });
