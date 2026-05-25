@@ -1,8 +1,9 @@
-module.exports = async (req, res) => {
-  const CLIENT_ID = process.env.OAUTH_CLIENT_ID;
-  const CLIENT_SECRET = process.env.OAUTH_CLIENT_SECRET;
-  const SITE_URL = process.env.SITE_URL || 'https://eict.vercel.app';
-  const redirectUri = SITE_URL + '/api/auth';
+const CLIENT_ID = process.env.OAUTH_CLIENT_ID;
+const CLIENT_SECRET = process.env.OAUTH_CLIENT_SECRET;
+const SITE_URL = process.env.SITE_URL || 'https://eict.vercel.app';
+const redirectUri = SITE_URL + '/api/auth';
+
+export default async (req, res) => {
   const { code } = req.query;
 
   if (!code) {
