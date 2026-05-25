@@ -1,36 +1,11 @@
 ---
+import { getCollection } from 'astro:content';
 import SectionTitle from '../ui/SectionTitle.astro';
 import Card from '../ui/Card.astro';
 
-const servicios = [
-  {
-    icon: 'users',
-    title: 'Consultorías y asesorías',
-    description: 'Diseñamos, organizamos y desarrollamos todo tipo de capacitación y superación, atendiendo a las necesidades y demandas de nuestros clientes.',
-  },
-  {
-    icon: 'flask',
-    title: 'Servicios científicos-técnicos',
-    description: 'Ofrecemos soluciones a problemas y necesidades, basadas en la innovación, la transferencia de tecnología y la aplicación de resultados científicos.',
-  },
-  {
-    icon: 'calendar',
-    title: 'Organización y coordinación de eventos',
-    description: 'Colaboramos con la divulgación, organización y apoyo logístico para la realización de eventos académicos y científicos.',
-  },
-  {
-    icon: 'folder',
-    title: 'Gestión de proyectos',
-    description: 'Brindamos apoyo logístico y material para el desarrollo de las actividades de los proyectos científicos.',
-  },
-  {
-    icon: 'globe',
-    title: 'Servicios académicos internacionales',
-    description: 'Gestionamos la comercialización de ofertas académicas de las universidades asociadas y la exportación de servicios profesionales.',
-  },
-];
+const servicios = (await getCollection('servicios')).sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 
-const iconMap: Record<string, string> = {
+const iconMap = {
   users: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
   flask: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
   calendar: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
@@ -53,11 +28,11 @@ const iconMap: Record<string, string> = {
           <div class="p-8">
             <div class="w-14 h-14 bg-gradient-to-br from-eict-cyan/20 to-eict-cyan/5 rounded-2xl flex items-center justify-center mb-6 group-hover:from-eict-cyan group-hover:to-eict-cyan-dark transition-all duration-300">
               <svg class="w-7 h-7 text-eict-cyan group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={iconMap[servicio.icon]} />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={iconMap[servicio.data.icon ?? 'users']} />
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-eict-purple dark:text-white mb-3">{servicio.title}</h3>
-            <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">{servicio.description}</p>
+            <h3 class="text-xl font-bold text-eict-purple dark:text-white mb-3">{servicio.data.title}</h3>
+            <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">{servicio.data.description}</p>
             <a
               href="#contacto"
               class="inline-flex items-center gap-2 text-sm font-semibold text-eict-cyan hover:text-eict-cyan-dark transition-colors duration-200 group/link"

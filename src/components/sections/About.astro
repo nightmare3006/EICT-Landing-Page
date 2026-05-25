@@ -1,6 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
 import SectionTitle from '../ui/SectionTitle.astro';
 import Card from '../ui/Card.astro';
+
+const empresa = await getCollection('empresa');
+const misionVision = empresa.find(e => e.slug === 'mision-vision');
+const mision = misionVision?.data?.mision ?? 'Cargando misión...';
+const vision = misionVision?.data?.vision ?? 'Cargando visión...';
+const objeto = misionVision?.data?.objeto ?? '';
 ---
 
 <section id="nosotros" class="py-24 bg-white dark:bg-slate-900">
@@ -29,6 +36,10 @@ import Card from '../ui/Card.astro';
           <strong class="text-eict-purple dark:text-white">EICT S.A.</strong> es una sociedad mercantil de capital 100% cubano, adscrita al Ministerio de Educación Superior, creada para ser el puente entre la academia y el sector productivo.
         </p>
 
+        {objeto && (
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed">{objeto}</p>
+        )}
+
         <div class="grid grid-cols-2 gap-4 p-6 bg-eict-gray-light/30 dark:bg-slate-800/50 rounded-2xl border border-eict-gray-light dark:border-slate-700/50">
           <div class="text-center">
             <p class="text-3xl font-bold text-eict-cyan">80%</p>
@@ -39,10 +50,6 @@ import Card from '../ui/Card.astro';
             <p class="text-sm text-gray-600 dark:text-gray-400">Universidad de Moa</p>
           </div>
         </div>
-
-        <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
-          Estamos enfocados en satisfacer las necesidades del sector empresarial y de servicios, con profesionales de alto nivel académico y científico en diferentes áreas del conocimiento.
-        </p>
       </div>
 
       <div class="lg:col-span-2 space-y-6">
@@ -56,9 +63,7 @@ import Card from '../ui/Card.astro';
               </div>
               <div>
                 <h3 class="text-lg font-bold text-eict-purple dark:text-white mb-2">Misión</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                  Somos una empresa de interfaz enfocada en la comercialización de bienes y servicios basados en la ciencia, tecnología e innovación y el vínculo Universidad-Empresa.
-                </p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{mision}</p>
               </div>
             </div>
           </div>
@@ -75,9 +80,7 @@ import Card from '../ui/Card.astro';
               </div>
               <div>
                 <h3 class="text-lg font-bold text-eict-purple dark:text-white mb-2">Visión</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                  Ser una empresa líder en la comercialización de bienes y servicios basados en la ciencia, tecnología e innovación por la excelencia y profesionalidad de nuestros trabajadores.
-                </p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{vision}</p>
               </div>
             </div>
           </div>

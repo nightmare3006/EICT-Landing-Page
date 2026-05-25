@@ -41,7 +41,10 @@ const contactosCollection = defineCollection({
 const empresaCollection = defineCollection({
   type: 'content',
   schema: z.object({
-    title: z.string(),
+    title: z.string().optional(),
+    mision: z.string().optional(),
+    vision: z.string().optional(),
+    objeto: z.string().optional(),
   }),
 });
 
