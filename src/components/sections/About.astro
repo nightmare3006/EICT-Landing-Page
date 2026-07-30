@@ -4,16 +4,20 @@ import SectionTitle from '../ui/SectionTitle.astro';
 import Card from '../ui/Card.astro';
 
 const empresa = await getCollection('empresa');
+
 const misionVision = empresa.find(e => e.slug === 'mision-vision');
-const mision = misionVision?.data?.mision ?? 'Cargando misión...';
-const vision = misionVision?.data?.vision ?? 'Cargando visión...';
+const mision = misionVision?.data?.mision ?? '';
+const vision = misionVision?.data?.vision ?? '';
 const objeto = misionVision?.data?.objeto ?? '';
+
+const aboutEntry = empresa.find(e => e.slug === 'about');
+const { Content } = aboutEntry ? await aboutEntry.render() : { Content: null };
 ---
 
 <section id="nosotros" class="py-24 bg-white dark:bg-slate-900">
   <div class="container mx-auto px-4">
     <SectionTitle
-      title="¿Quiénes somos?"
+      title={aboutEntry?.data?.title ?? '¿Quiénes somos?'}
       subtitle="Conectando la ciencia con la empresa para impulsar la innovación en Cuba"
       centered
     />
@@ -32,12 +36,10 @@ const objeto = misionVision?.data?.objeto ?? '';
           </span>
         </div>
 
-        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
-          <strong class="text-eict-purple dark:text-white">EICT S.A.</strong> es una sociedad mercantil de capital 100% cubano, adscrita al Ministerio de Educación Superior, creada para ser el puente entre la academia y el sector productivo.
-        </p>
-
-        {objeto && (
-          <p class="text-gray-600 dark:text-gray-400 leading-relaxed">{objeto}</p>
+        {Content && (
+          <div class="prose prose-lg dark:prose-invert max-w-none prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-strong:text-eict-purple dark:prose-strong:text-white">
+            <Content />
+          </div>
         )}
 
         <div class="grid grid-cols-2 gap-4 p-6 bg-eict-gray-light/30 dark:bg-slate-800/50 rounded-2xl border border-eict-gray-light dark:border-slate-700/50">
@@ -85,6 +87,24 @@ const objeto = misionVision?.data?.objeto ?? '';
             </div>
           </div>
         </Card>
+
+        {objeto && (
+          <Card hover="none" class="border-l-4 border-l-eict-gray-blue">
+            <div class="p-6">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 bg-eict-gray-blue/10 rounded-xl flex items-center justify-center shrink-0">
+                  <svg class="w-6 h-6 text-eict-gray-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-eict-purple dark:text-white mb-2">Objeto Social</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{objeto}</p>
+                </div>
+              </div>
+            </div>
+          </Card>
+        )}
       </div>
     </div>
 

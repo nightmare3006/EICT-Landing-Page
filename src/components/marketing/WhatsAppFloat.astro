@@ -1,8 +1,17 @@
 ---
+import { getCollection } from 'astro:content';
+
+const empresa = await getCollection('empresa');
+const numero = empresa.find(e => e.slug === 'contacto-general')?.data?.whatsapp;
+
+const mensaje = encodeURIComponent(
+  'Hola, me interesa conocer más sobre los servicios de EICT S.A.'
+);
 ---
 
+{numero && (
 <a
-  href="https://wa.me/5352117133?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20los%20servicios%20de%20EICT%20S.A."
+  href={`https://wa.me/${numero}?text=${mensaje}`}
   target="_blank"
   rel="noopener noreferrer"
   class="fixed bottom-6 right-6 z-40 group"
@@ -20,3 +29,4 @@
     Escríbenos por WhatsApp
   </span>
 </a>
+)}

@@ -1,6 +1,6 @@
 ---
-const siteUrl = 'https://eict.vercel.app';
-const siteTitle = 'EICT%20S.A.%20-%20Solucionamos%20con%20ciencia';
+const siteUrl = encodeURIComponent(Astro.site?.href.replace(/\/$/, '') ?? '');
+const siteTitle = encodeURIComponent('EICT S.A. - Solucionamos con ciencia');
 ---
 
 <div class="flex items-center justify-center gap-2">

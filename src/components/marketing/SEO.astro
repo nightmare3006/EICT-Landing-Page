@@ -1,7 +1,9 @@
 ---
+import { getCollection } from 'astro:content';
+
 interface Props {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   image?: string;
   type?: string;
 }
@@ -9,11 +11,46 @@ interface Props {
 const {
   title = 'EICT S.A. - Solucionamos con ciencia',
   description = 'Sociedad de Interfaz de Ciencia y Tecnología. Conectamos la ciencia con la empresa para impulsar la innovación en Cuba.',
-  image = '/logo-eict.svg',
+  image = '/og-image.png',
   type = 'website'
 } = Astro.props;
 
-const siteUrl = 'https://eict.vercel.app';
+const siteUrl = Astro.site?.href.replace(/\/$/, '') ?? '';
+const imageUrl = new URL(image, Astro.site).href;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+const empresa = await getCollection('empresa');
+const general = empresa.find(e => e.slug === 'contacto-general')?.data;
+
+const sameAs = (general?.redes ?? []).map(r => r.url).filter(Boolean);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'EICT S.A.',
+  alternateName: 'Sociedad de Interfaz de Ciencia y Tecnología S.A.',
+  url: siteUrl,
+  logo: `${siteUrl}/logo-eict.svg`,
+  image: imageUrl,
+  description: 'Empresa de interfaz enfocada en la comercialización de bienes y servicios basados en la ciencia, tecnología e innovación.',
+  ...(general?.direccion && {
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: general.direccion,
+      addressLocality: 'Holguín',
+      addressCountry: 'CU',
+    },
+  }),
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      ...(general?.telefono_1 && { telephone: general.telefono_1 }),
+      ...(general?.email_general && { email: general.email_general }),
+      contactType: 'customer service',
+    },
+  ],
+  ...(sameAs.length > 0 && { sameAs }),
+};
 ---
 
 <title>{title}</title>
@@ -22,45 +59,20 @@ const siteUrl = 'https://eict.vercel.app';
 <meta name="robots" content="index, follow" />
 
 <meta property="og:type" content={type} />
-<meta property="og:url" content={siteUrl} />
+<meta property="og:url" content={canonical} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={`${siteUrl}${image}`} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="EICT S.A." />
 <meta property="og:locale" content="es_CU" />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={`${siteUrl}${image}`} />
+<meta name="twitter:image" content={imageUrl} />
 
-<link rel="canonical" href={siteUrl} />
+<link rel="canonical" href={canonical} />
 
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "EICT S.A.",
-    "alternateName": "Sociedad de Interfaz de Ciencia y Tecnología S.A.",
-    "url": "https://eict.vercel.app",
-    "logo": "https://eict.vercel.app/logo-eict.svg",
-    "description": "Empresa de interfaz enfocada en la comercialización de bienes y servicios basados en la ciencia, tecnología e innovación.",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Calle 11, No 2, entre Ave. Jorge Dimitrov y calle 10, Reparto Pedro Díaz Coello",
-      "addressLocality": "Holguín",
-      "addressCountry": "CU"
-    },
-    "contactPoint": [
-      {
-        "@type": "ContactPoint",
-        "telephone": "+53-24-483146",
-        "email": "eict@uho.edu.cu",
-        "contactType": "customer service"
-      }
-    ],
-    "sameAs": [
-      "https://www.facebook.com/EICT-S-A-123456789",
-      "https://www.instagram.com/eict-s-a"
-    ]
-  }
-</script>
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

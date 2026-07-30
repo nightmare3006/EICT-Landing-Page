@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from '../marketing/ThemeToggle.astro';
+import Logo from '../ui/Logo.astro';
 
 const navItems = [
   { label: 'Inicio', href: '#inicio' },
@@ -14,7 +15,9 @@ const navItems = [
   <nav class="container mx-auto px-4">
     <div class="flex items-center justify-between h-16 md:h-20">
       <a href="#inicio" class="flex items-center gap-3 group" aria-label="Ir al inicio">
-        <img src="/logo-eict.svg" alt="EICT S.A." class="h-9 md:h-10 w-auto" />
+        <span class="inline-flex items-center justify-center bg-white rounded-xl p-1.5 md:p-2 ring-1 ring-black/5 dark:ring-white/15 shadow-sm group-hover:shadow-md transition-shadow duration-200">
+          <Logo class="h-8 md:h-9 w-auto" />
+        </span>
       </a>
 
       <div class="hidden md:flex items-center gap-1">

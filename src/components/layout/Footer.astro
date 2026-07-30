@@ -1,5 +1,8 @@
 ---
+import { getCollection } from 'astro:content';
 import ShareButtons from '../marketing/ShareButtons.astro';
+import Logo from '../ui/Logo.astro';
+import SocialLinks from '../ui/SocialLinks.astro';
 
 const quickLinks = [
   { label: 'Inicio', href: '#inicio' },
@@ -9,21 +12,16 @@ const quickLinks = [
   { label: 'Contacto', href: '#contacto' },
 ];
 
-const services = [
-  { label: 'Consultorías', href: '#servicios' },
-  { label: 'Servicios científicos', href: '#servicios' },
-  { label: 'Eventos', href: '#servicios' },
-  { label: 'Gestión de proyectos', href: '#servicios' },
-  { label: 'Servicios internacionales', href: '#servicios' },
-];
+const servicios = (await getCollection('servicios')).sort(
+  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0)
+);
 
-const contactInfo = {
-  phone1: '(53) 24 483146',
-  phone2: '(53) 52117133',
-  email: 'eict@uho.edu.cu',
-  facebook: 'https://www.facebook.com/EICT-S-A-123456789',
-  instagram: 'https://www.instagram.com/eict-s-a',
-};
+const empresa = await getCollection('empresa');
+const general = empresa.find(e => e.slug === 'contacto-general')?.data;
+
+const telefonos = [general?.telefono_1, general?.telefono_2].filter(Boolean);
+const redes = general?.redes ?? [];
+const currentYear = new Date().getFullYear();
 ---
 
 <footer class="bg-gradient-to-b from-eict-purple to-eict-purple-dark dark:from-slate-900 dark:to-slate-950 text-white">
@@ -31,9 +29,9 @@ const contactInfo = {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
       <div class="lg:col-span-4">
         <div class="flex items-center gap-3 mb-6">
-          <div class="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center">
-            <span class="text-white font-bold text-xl">E</span>
-          </div>
+          <span class="inline-flex items-center justify-center bg-white rounded-2xl p-2 shrink-0 shadow-lg shadow-black/10 ring-1 ring-black/5">
+            <Logo class="h-11 w-auto" />
+          </span>
           <div>
             <span class="text-xl font-bold">EICT S.A.</span>
             <p class="text-eict-cyan-light text-xs">Solucionamos con ciencia</p>
@@ -61,10 +59,10 @@ const contactInfo = {
       <div class="lg:col-span-3">
         <h3 class="text-sm font-semibold text-white/80 uppercase tracking-wider mb-5">Servicios</h3>
         <ul class="space-y-3">
-          {services.map(service => (
+          {servicios.map(servicio => (
             <li>
-              <a href={service.href} class="text-white/60 hover:text-eict-cyan transition-colors duration-200 text-sm">
-                {service.label}
+              <a href="#servicios" class="text-white/60 hover:text-eict-cyan transition-colors duration-200 text-sm">
+                {servicio.data.title}
               </a>
             </li>
           ))}
@@ -74,36 +72,26 @@ const contactInfo = {
       <div class="lg:col-span-3">
         <h3 class="text-sm font-semibold text-white/80 uppercase tracking-wider mb-5">Contacto</h3>
         <ul class="space-y-4">
-          <li>
-            <p class="text-xs text-white/40 uppercase tracking-wider mb-1">Teléfonos</p>
-            <a href={`tel:${contactInfo.phone1}`} class="text-white/70 hover:text-eict-cyan transition-colors duration-200 text-sm block">
-              {contactInfo.phone1}
-            </a>
-            <a href={`tel:${contactInfo.phone2}`} class="text-white/70 hover:text-eict-cyan transition-colors duration-200 text-sm block">
-              {contactInfo.phone2}
-            </a>
-          </li>
-          <li>
-            <p class="text-xs text-white/40 uppercase tracking-wider mb-1">Email</p>
-            <a href={`mailto:${contactInfo.email}`} class="text-white/70 hover:text-eict-cyan transition-colors duration-200 text-sm">
-              {contactInfo.email}
-            </a>
-          </li>
+          {telefonos.length > 0 && (
+            <li>
+              <p class="text-xs text-white/40 uppercase tracking-wider mb-1">Teléfonos</p>
+              {telefonos.map(telefono => (
+                <a href={`tel:${telefono}`} class="text-white/70 hover:text-eict-cyan transition-colors duration-200 text-sm block">
+                  {telefono}
+                </a>
+              ))}
+            </li>
+          )}
+          {general?.email_general && (
+            <li>
+              <p class="text-xs text-white/40 uppercase tracking-wider mb-1">Email</p>
+              <a href={`mailto:${general.email_general}`} class="text-white/70 hover:text-eict-cyan transition-colors duration-200 text-sm">
+                {general.email_general}
+              </a>
+            </li>
+          )}
         </ul>
-        <div class="flex gap-3 mt-6">
-          <a href={contactInfo.facebook} target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-eict-cyan transition-all duration-200" aria-label="Facebook">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-            </svg>
-          </a>
-          <a href={contactInfo.instagram} target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-eict-cyan transition-all duration-200" aria-label="Instagram">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke-width="1.5" />
-              <circle cx="12" cy="12" r="4" stroke-width="1.5" />
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
-            </svg>
-          </a>
-        </div>
+        <SocialLinks redes={redes} variant="dark" size="sm" class="mt-6" />
       </div>
     </div>
   </div>
@@ -112,16 +100,11 @@ const contactInfo = {
     <div class="container mx-auto px-4 py-6">
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
         <p class="text-white/40 text-xs">
-          © 2026 EICT S.A. Todos los derechos reservados.
+          © {currentYear} EICT S.A. Todos los derechos reservados.
         </p>
-        <div class="flex gap-6 text-xs">
-          <a href="#" class="text-white/40 hover:text-eict-cyan transition-colors duration-200">
-            Política de Privacidad
-          </a>
-          <a href="#" class="text-white/40 hover:text-eict-cyan transition-colors duration-200">
-            Términos de Uso
-          </a>
-        </div>
+        <p class="text-white/40 text-xs">
+          Sociedad de Interfaz de Ciencia y Tecnología · Holguín, Cuba
+        </p>
       </div>
     </div>
   </div>

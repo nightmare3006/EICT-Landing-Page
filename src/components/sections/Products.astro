@@ -27,17 +27,26 @@ const colorMap = {
       centered
     />
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 justify-items-center">
       {disponibles.map((p) => {
         const cat = p.data.category ?? 'otro';
         return (
-          <Card hover="glow" class="text-center">
+          <Card hover="glow" class="text-center w-full max-w-md lg:max-w-none">
             <div class="p-8">
-              <div class={`w-16 h-16 mx-auto mb-5 bg-gradient-to-br ${colorMap[cat] ?? colorMap.otro} rounded-2xl flex items-center justify-center`}>
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={iconPaths[cat] ?? iconPaths.otro} />
-                </svg>
-              </div>
+              {p.data.image ? (
+                <img
+                  src={p.data.image}
+                  alt={p.data.title}
+                  loading="lazy"
+                  class="w-full h-40 mx-auto mb-5 object-cover rounded-2xl"
+                />
+              ) : (
+                <div class={`w-16 h-16 mx-auto mb-5 bg-gradient-to-br ${colorMap[cat] ?? colorMap.otro} rounded-2xl flex items-center justify-center`}>
+                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={iconPaths[cat] ?? iconPaths.otro} />
+                  </svg>
+                </div>
+              )}
               <h3 class="text-lg font-bold text-eict-purple dark:text-white mb-2">{p.data.title}</h3>
               <p class="text-sm text-gray-500 dark:text-gray-400">{p.data.description}</p>
               {p.data.price && (

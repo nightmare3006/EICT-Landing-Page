@@ -10,6 +10,15 @@ const serviciosCollection = defineCollection({
     category: z.enum(['consultoria', 'cientifico', 'eventos', 'proyectos', 'internacional']),
     icon: z.string().optional(),
     order: z.number().default(0),
+    // Shown inside the service detail modal, below the markdown body.
+    gallery: z
+      .array(
+        z.object({
+          image: z.string(),
+          caption: z.string().optional(),
+        })
+      )
+      .optional(),
   }),
 });
 
@@ -28,13 +37,17 @@ const productosCollection = defineCollection({
 const contactosCollection = defineCollection({
   type: 'content',
   schema: z.object({
-    area: z.enum(['director', 'juridica', 'rrhh', 'economia']),
-    name: z.string(),
+    // Free-form so new areas can be added from the CMS without a code change;
+    // it only drives the icon/colour lookup, which falls back gracefully.
+    area: z.string().default('otro'),
+    // Optional: while a person's name is unknown the card falls back to the position.
+    name: z.string().optional(),
     position: z.string(),
     email: z.string().email(),
     phone: z.string(),
     schedule: z.string().optional(),
     photo: z.string().optional(),
+    order: z.number().default(0),
   }),
 });
 
@@ -45,6 +58,22 @@ const empresaCollection = defineCollection({
     mision: z.string().optional(),
     vision: z.string().optional(),
     objeto: z.string().optional(),
+    direccion: z.string().optional(),
+    email_general: z.string().email().optional(),
+    telefono_1: z.string().optional(),
+    telefono_2: z.string().optional(),
+    whatsapp: z.string().optional(),
+    // Open list so a new network (Instagram, X, Threads…) can be switched on from
+    // the CMS alone. The URL is validated by a pattern in the admin config rather
+    // than by Zod here, so a typo can never take the whole build down.
+    redes: z
+      .array(
+        z.object({
+          plataforma: z.string(),
+          url: z.string(),
+        })
+      )
+      .optional(),
   }),
 });
 

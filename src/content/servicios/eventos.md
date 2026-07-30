@@ -7,3 +7,18 @@ order: 3
 ---
 
 Organizamos eventos académicos y científicos de alcance nacional e internacional, brindando apoyo logístico completo y profesional.
+
+Nos ocupamos de la operación para que el comité organizador pueda concentrarse en el contenido científico del evento.
+
+### Qué incluye
+
+- Planificación integral y cronograma del evento
+- Gestión de inscripciones y atención a participantes
+- Divulgación y convocatoria
+- Apoyo logístico: sedes, alojamiento, transporte y alimentación
+- Coordinación de sesiones, ponencias y actividades colaterales
+- Gestión administrativa y financiera del evento
+
+### A quién va dirigido
+
+Comités organizadores de congresos, talleres, simposios y jornadas científicas, tanto de instituciones académicas como de entidades empresariales.

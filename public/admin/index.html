@@ -42,8 +42,20 @@
                       { label: 'Imagen', name: 'image', widget: 'image', required: false },
                       { label: 'Precio', name: 'price', widget: 'string', required: false },
                       { label: 'Categor\u00eda', name: 'category', widget: 'select', options: ['consultoria', 'cientifico', 'eventos', 'proyectos', 'internacional'], required: true },
-                      { label: 'Icono', name: 'icon', widget: 'select', options: ['users', 'book', 'flask', 'calendar', 'folder', 'globe'], required: false },
-                      { label: 'Contenido', name: 'body', widget: 'markdown', required: false },
+                      { label: 'Icono', name: 'icon', widget: 'select', options: ['users', 'flask', 'calendar', 'folder', 'globe'], required: false },
+                      { label: 'Información detallada (se muestra al pulsar "Ver más")', name: 'body', widget: 'markdown', required: false },
+                      {
+                        label: 'Galería de imágenes (se muestra en la ventana de detalle)',
+                        name: 'gallery',
+                        widget: 'list',
+                        required: false,
+                        label_singular: 'Imagen',
+                        summary: '{{fields.caption}}',
+                        fields: [
+                          { label: 'Imagen', name: 'image', widget: 'image' },
+                          { label: 'Pie de foto', name: 'caption', widget: 'string', required: false }
+                        ]
+                      },
                       { label: 'Orden', name: 'order', widget: 'number', default: 0, required: false }
                     ]
                   },
@@ -72,13 +84,31 @@
                     delete: true,
                     slug: '{{slug}}',
                     fields: [
-                      { label: '\u00c1rea', name: 'area', widget: 'select', options: ['director', 'juridica', 'rrhh', 'economia'], required: true },
-                      { label: 'Nombre', name: 'name', widget: 'string', required: true },
-                      { label: 'Cargo', name: 'position', widget: 'string', required: true },
+                      {
+                        label: '\u00c1rea',
+                        name: 'area',
+                        widget: 'select',
+                        required: true,
+                        default: 'presidente',
+                        hint: 'Solo define el icono y el color de la tarjeta',
+                        options: [
+                          { label: 'Presidencia', value: 'presidente' },
+                          { label: 'Direcci\u00f3n', value: 'direccion' },
+                          { label: 'Departamento Jur\u00eddico', value: 'juridica' },
+                          { label: 'Recursos Humanos', value: 'rrhh' },
+                          { label: 'Econom\u00eda y Finanzas', value: 'economia' },
+                          { label: 'Comercial', value: 'comercial' },
+                          { label: 'Proyectos', value: 'proyectos' },
+                          { label: 'Otra', value: 'otro' }
+                        ]
+                      },
+                      { label: 'Cargo', name: 'position', widget: 'string', required: true, hint: 'Ej: Presidente. Se usa como t\u00edtulo si no hay nombre' },
+                      { label: 'Nombre de la persona', name: 'name', widget: 'string', required: false, hint: 'Opcional: d\u00e9jalo vac\u00edo si a\u00fan no quieres publicarlo' },
                       { label: 'Email', name: 'email', widget: 'string', required: true },
                       { label: 'Tel\u00e9fono', name: 'phone', widget: 'string', required: true },
                       { label: 'Horario', name: 'schedule', widget: 'string', required: false },
                       { label: 'Foto', name: 'photo', widget: 'image', required: false },
+                      { label: 'Orden', name: 'order', widget: 'number', default: 0, required: false },
                       { label: 'Descripci\u00f3n', name: 'body', widget: 'markdown', required: false }
                     ]
                   },
@@ -103,6 +133,49 @@
                           { label: 'Misi\u00f3n', name: 'mision', widget: 'text' },
                           { label: 'Visi\u00f3n', name: 'vision', widget: 'text' },
                           { label: 'Objeto Social', name: 'objeto', widget: 'text' }
+                        ]
+                      },
+                      {
+                        label: 'Datos de Contacto',
+                        name: 'contacto-general',
+                        file: 'src/content/empresa/contacto-general.md',
+                        fields: [
+                          { label: 'Dirección', name: 'direccion', widget: 'text', required: false },
+                          { label: 'Email general', name: 'email_general', widget: 'string', required: false },
+                          { label: 'Teléfono principal', name: 'telefono_1', widget: 'string', required: false },
+                          { label: 'Teléfono secundario', name: 'telefono_2', widget: 'string', required: false },
+                          { label: 'WhatsApp (solo números, con código de país)', name: 'whatsapp', widget: 'string', required: false, hint: 'Ejemplo: 5352117133' },
+                          {
+                            label: 'Redes sociales',
+                            name: 'redes',
+                            widget: 'list',
+                            required: false,
+                            label_singular: 'Red social',
+                            summary: '{{fields.plataforma}}',
+                            hint: 'Añade solo las redes que ya existan. Las que no añadas no se muestran en la web.',
+                            fields: [
+                              {
+                                label: 'Plataforma',
+                                name: 'plataforma',
+                                widget: 'select',
+                                options: [
+                                  { label: 'Facebook', value: 'facebook' },
+                                  { label: 'LinkedIn', value: 'linkedin' },
+                                  { label: 'Instagram', value: 'instagram' },
+                                  { label: 'X (Twitter)', value: 'x' },
+                                  { label: 'Threads', value: 'threads' },
+                                  { label: 'YouTube', value: 'youtube' },
+                                  { label: 'Telegram', value: 'telegram' }
+                                ]
+                              },
+                              {
+                                label: 'Enlace',
+                                name: 'url',
+                                widget: 'string',
+                                pattern: ['^https?://.+', 'Debe ser una URL completa que empiece por https://']
+                              }
+                            ]
+                          }
                         ]
                       }
                     ]

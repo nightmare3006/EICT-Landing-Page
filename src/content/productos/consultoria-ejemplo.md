@@ -1,7 +1,6 @@
 ---
 title: "Consultorías especializadas"
 description: "Servicios de consultoría en gestión de proyectos de I+D+i para empresas cubanas."
-image: "/images/uploads/consultoria.jpg"
 price: "Consultar"
 available: true
 category: "servicio"
