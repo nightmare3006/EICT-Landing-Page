@@ -2,7 +2,11 @@
 import { getCollection } from 'astro:content';
 
 const empresa = await getCollection('empresa');
-const numero = empresa.find(e => e.slug === 'contacto-general')?.data?.whatsapp;
+// wa.me only accepts digits, so strip whatever the CMS editor typed
+// ("+53 5 2117133", "(53) 5...") down to the bare number.
+const numero = empresa
+  .find(e => e.slug === 'contacto-general')
+  ?.data?.whatsapp?.replace(/\D/g, '');
 
 const mensaje = encodeURIComponent(
   'Hola, me interesa conocer más sobre los servicios de EICT S.A.'
