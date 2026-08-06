@@ -31,6 +31,15 @@ const productosCollection = defineCollection({
     price: z.string().optional(),
     available: z.boolean().default(true),
     category: z.enum(['intangible', 'tecnologia', 'servicio', 'otro']).optional(),
+    // Shown inside the product detail modal, below the markdown body.
+    gallery: z
+      .array(
+        z.object({
+          image: z.string(),
+          caption: z.string().optional(),
+        })
+      )
+      .optional(),
   }),
 });
 
@@ -77,9 +86,27 @@ const empresaCollection = defineCollection({
   }),
 });
 
+const comentariosCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    nombre: z.string(),
+    empresa: z.string().optional(),
+    cargo: z.string().optional(),
+    valoracion: z.number().min(1).max(5),
+    // Kept in the frontmatter (not the markdown body) so it renders as plain
+    // escaped text — a visitor-submitted body could otherwise inject raw HTML.
+    comentario: z.string(),
+    fecha: z.coerce.date(),
+    // Nothing reaches the site until someone flips this in the CMS.
+    aprobado: z.boolean().default(false),
+    destacado: z.boolean().default(false),
+  }),
+});
+
 export const collections = {
   servicios: serviciosCollection,
   productos: productosCollection,
   contactos: contactosCollection,
   empresa: empresaCollection,
+  comentarios: comentariosCollection,
 };

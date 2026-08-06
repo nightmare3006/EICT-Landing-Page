@@ -91,7 +91,12 @@ const currentYear = new Date().getFullYear();
             </li>
           )}
         </ul>
-        <SocialLinks redes={redes} variant="dark" size="sm" class="mt-6" />
+        {redes.length > 0 && (
+          <div class="mt-6">
+            <p class="text-xs text-white/40 uppercase tracking-wider mb-2">Síguenos</p>
+            <SocialLinks redes={redes} variant="dark" size="sm" />
+          </div>
+        )}
       </div>
     </div>
   </div>

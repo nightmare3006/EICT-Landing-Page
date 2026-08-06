@@ -1,0 +1,328 @@
+---
+import { getCollection } from 'astro:content';
+import SectionTitle from '../ui/SectionTitle.astro';
+import Card from '../ui/Card.astro';
+import Stars from '../ui/Stars.astro';
+
+// Only approved reviews ever reach the page; the rest sit in the repo waiting
+// for someone to tick "Aprobado" in /admin.
+const aprobados = (await getCollection('comentarios'))
+  .filter(c => c.data.aprobado === true)
+  .sort((a, b) => {
+    if (a.data.destacado !== b.data.destacado) return a.data.destacado ? -1 : 1;
+    return b.data.fecha.valueOf() - a.data.fecha.valueOf();
+  });
+
+const total = aprobados.length;
+const media = total > 0 ? aprobados.reduce((sum, c) => sum + c.data.valoracion, 0) / total : 0;
+
+const fmtFecha = new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric' });
+
+function iniciales(nombre: string) {
+  return nombre
+    .split(/\s+/)
+    .slice(0, 2)
+    .map(w => w.charAt(0).toUpperCase())
+    .join('');
+}
+
+const avatarTones = [
+  'from-eict-cyan to-blue-500',
+  'from-amber-400 to-orange-500',
+  'from-emerald-400 to-emerald-600',
+  'from-violet-400 to-purple-500',
+  'from-rose-400 to-pink-500',
+];
+---
+
+<section id="comentarios" class="py-24 bg-gray-50/50 dark:bg-slate-800/50">
+  <div class="container mx-auto px-4">
+    <SectionTitle
+      title="Lo que dicen nuestros clientes"
+      subtitle="Opiniones de quienes ya han trabajado con nosotros"
+      centered
+    />
+
+    {total > 0 && (
+      <div class="flex flex-col items-center gap-3 mb-14">
+        <div class="flex items-center gap-4 px-8 py-5 bg-white dark:bg-slate-900 rounded-2xl shadow-md border border-gray-100 dark:border-slate-700/50">
+          <span class="text-4xl font-bold text-eict-purple dark:text-white leading-none">
+            {media.toFixed(1)}
+          </span>
+          <div class="flex flex-col gap-1">
+            <Stars value={media} size="md" />
+            <span class="text-sm text-gray-500 dark:text-gray-400">
+              {total === 1 ? '1 valoración' : `${total} valoraciones`}
+            </span>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {total > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+        {aprobados.map((c, i) => (
+          <Card hover="glow" class="flex flex-col h-full">
+            <div class="flex flex-col h-full p-7">
+              <Stars value={c.data.valoracion} size="sm" class="mb-4" />
+
+              <blockquote class="text-gray-600 dark:text-gray-300 leading-relaxed grow">
+                <p>“{c.data.comentario}”</p>
+              </blockquote>
+
+              <figcaption class="flex items-center gap-3 mt-6 pt-5 border-t border-gray-100 dark:border-slate-700/60">
+                <div class={`w-11 h-11 shrink-0 rounded-full bg-gradient-to-br ${avatarTones[i % avatarTones.length]} flex items-center justify-center text-white font-bold text-sm`}>
+                  {iniciales(c.data.nombre)}
+                </div>
+                <div class="min-w-0">
+                  <p class="font-semibold text-eict-purple dark:text-white text-sm truncate">
+                    {c.data.nombre}
+                  </p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
+                    {[c.data.cargo, c.data.empresa].filter(Boolean).join(' · ') ||
+                      fmtFecha.format(c.data.fecha)}
+                  </p>
+                </div>
+              </figcaption>
+            </div>
+          </Card>
+        ))}
+      </div>
+    ) : (
+      <div class="max-w-xl mx-auto text-center mb-16">
+        <div class="inline-flex items-center gap-3 px-6 py-4 bg-white dark:bg-slate-900 rounded-2xl border border-dashed border-eict-gray-blue dark:border-slate-600">
+          <svg class="w-6 h-6 text-eict-cyan shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.86 9.86 0 01-4-.8L3 20l1.3-3.9A7.96 7.96 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
+          <p class="text-gray-600 dark:text-gray-400 text-left">
+            Aún no hay valoraciones publicadas.
+            <span class="font-semibold text-eict-purple dark:text-white">Sé el primero en opinar.</span>
+          </p>
+        </div>
+      </div>
+    )}
+
+    <div class="max-w-2xl mx-auto">
+      <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-lg border border-gray-100 dark:border-slate-700/50 p-8 md:p-10">
+        <h3 class="text-xl font-bold text-eict-purple dark:text-white mb-1">Deja tu valoración</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-7">
+          Cuéntanos tu experiencia con EICT S.A. Revisamos cada comentario antes de publicarlo.
+        </p>
+
+        <form id="review-form" novalidate>
+          <div class="mb-6">
+            <span class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Tu valoración <span class="text-eict-cyan">*</span>
+            </span>
+            <div
+              id="star-picker"
+              class="inline-flex gap-1"
+              role="radiogroup"
+              aria-label="Valoración de 1 a 5 estrellas"
+            >
+              {[1, 2, 3, 4, 5].map(n => (
+                <button
+                  type="button"
+                  class="star-btn p-1 text-gray-300 dark:text-slate-600 hover:text-amber-400 transition-colors duration-150 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-eict-cyan"
+                  data-value={n}
+                  role="radio"
+                  aria-checked="false"
+                  aria-label={`${n} ${n === 1 ? 'estrella' : 'estrellas'}`}
+                >
+                  <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.48 3.5a.56.56 0 011.04 0l2.1 4.26a.56.56 0 00.43.31l4.7.68c.46.07.64.63.31.96l-3.4 3.31a.56.56 0 00-.17.5l.8 4.68a.56.56 0 01-.81.59l-4.2-2.21a.56.56 0 00-.53 0l-4.2 2.21a.56.56 0 01-.82-.59l.8-4.68a.56.56 0 00-.16-.5l-3.4-3.31a.56.56 0 01.3-.96l4.7-.68a.56.56 0 00.44-.31l2.1-4.26z" />
+                  </svg>
+                </button>
+              ))}
+            </div>
+            <input type="hidden" name="valoracion" id="valoracion" value="" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+            <div>
+              <label for="nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                Nombre <span class="text-eict-cyan">*</span>
+              </label>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                required
+                minlength="2"
+                maxlength="80"
+                autocomplete="name"
+                class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-eict-cyan focus:border-transparent transition-all duration-200"
+                placeholder="Tu nombre"
+              />
+            </div>
+            <div>
+              <label for="empresa" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                Empresa o institución
+              </label>
+              <input
+                type="text"
+                id="empresa"
+                name="empresa"
+                maxlength="100"
+                autocomplete="organization"
+                class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-eict-cyan focus:border-transparent transition-all duration-200"
+                placeholder="Opcional"
+              />
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <label for="cargo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+              Cargo
+            </label>
+            <input
+              type="text"
+              id="cargo"
+              name="cargo"
+              maxlength="100"
+              autocomplete="organization-title"
+              class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-eict-cyan focus:border-transparent transition-all duration-200"
+              placeholder="Opcional"
+            />
+          </div>
+
+          <div class="mb-6">
+            <label for="comentario" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+              Tu comentario <span class="text-eict-cyan">*</span>
+            </label>
+            <textarea
+              id="comentario"
+              name="comentario"
+              required
+              minlength="10"
+              maxlength="1000"
+              rows="4"
+              class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-eict-cyan focus:border-transparent transition-all duration-200 resize-y"
+              placeholder="¿Cómo fue tu experiencia trabajando con nosotros?"
+            ></textarea>
+            <p class="mt-1.5 text-xs text-gray-400 dark:text-gray-500">
+              <span id="char-count">0</span>/1000 caracteres
+            </p>
+          </div>
+
+          {/* Honeypot: hidden from people, irresistible to bots. */}
+          <div class="hidden" aria-hidden="true">
+            <label for="website">No rellenes este campo</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div
+            id="form-message"
+            class="hidden mb-5 px-4 py-3 rounded-xl text-sm"
+            role="status"
+            aria-live="polite"
+          ></div>
+
+          <button
+            type="submit"
+            id="review-submit"
+            class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3 bg-eict-cyan hover:bg-eict-cyan-dark disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-eict-cyan/25"
+          >
+            <span id="submit-label">Enviar valoración</span>
+            <svg id="submit-spinner" class="hidden w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+            </svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('review-form') as HTMLFormElement | null;
+  if (form) {
+    const picker = document.getElementById('star-picker')!;
+    const starButtons = Array.from(picker.querySelectorAll<HTMLButtonElement>('.star-btn'));
+    const valoracionInput = document.getElementById('valoracion') as HTMLInputElement;
+    const comentario = document.getElementById('comentario') as HTMLTextAreaElement;
+    const charCount = document.getElementById('char-count')!;
+    const message = document.getElementById('form-message')!;
+    const submit = document.getElementById('review-submit') as HTMLButtonElement;
+    const submitLabel = document.getElementById('submit-label')!;
+    const spinner = document.getElementById('submit-spinner')!;
+
+    let rating = 0;
+
+    function paint(upTo: number) {
+      starButtons.forEach((btn, i) => {
+        const on = i < upTo;
+        btn.classList.toggle('text-amber-400', on);
+        btn.classList.toggle('text-gray-300', !on);
+        btn.classList.toggle('dark:text-slate-600', !on);
+      });
+    }
+
+    starButtons.forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        rating = i + 1;
+        valoracionInput.value = String(rating);
+        starButtons.forEach((b, j) => b.setAttribute('aria-checked', String(j === i)));
+        paint(rating);
+      });
+      btn.addEventListener('mouseenter', () => paint(i + 1));
+    });
+    picker.addEventListener('mouseleave', () => paint(rating));
+
+    comentario.addEventListener('input', () => {
+      charCount.textContent = String(comentario.value.length);
+    });
+
+    function show(text: string, ok: boolean) {
+      message.textContent = text;
+      message.className = ok
+        ? 'mb-5 px-4 py-3 rounded-xl text-sm bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20'
+        : 'mb-5 px-4 py-3 rounded-xl text-sm bg-rose-50 text-rose-700 border border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20';
+    }
+
+    function busy(on: boolean) {
+      submit.disabled = on;
+      spinner.classList.toggle('hidden', !on);
+      submitLabel.textContent = on ? 'Enviando…' : 'Enviar valoración';
+    }
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      if (!rating) return show('Selecciona una valoración de 1 a 5 estrellas.', false);
+      if (String(data.nombre ?? '').trim().length < 2) return show('Escribe tu nombre.', false);
+      if (String(data.comentario ?? '').trim().length < 10) {
+        return show('El comentario debe tener al menos 10 caracteres.', false);
+      }
+
+      busy(true);
+      try {
+        const r = await fetch('/api/comentarios', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...data, valoracion: rating }),
+        });
+        const out = await r.json().catch(() => ({}));
+
+        if (r.ok) {
+          form.reset();
+          rating = 0;
+          valoracionInput.value = '';
+          charCount.textContent = '0';
+          paint(0);
+          starButtons.forEach(b => b.setAttribute('aria-checked', 'false'));
+          show('¡Gracias! Tu valoración se publicará una vez que la revisemos.', true);
+        } else {
+          show(out.error ?? 'No pudimos enviar tu comentario. Inténtalo más tarde.', false);
+        }
+      } catch {
+        show('No hay conexión con el servidor. Inténtalo más tarde.', false);
+      } finally {
+        busy(false);
+      }
+    });
+  }
+</script>

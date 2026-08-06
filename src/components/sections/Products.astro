@@ -2,20 +2,37 @@
 import { getCollection } from 'astro:content';
 import SectionTitle from '../ui/SectionTitle.astro';
 import Card from '../ui/Card.astro';
+import DetailModal from '../ui/DetailModal.astro';
 
-const productos = await getCollection('productos');
-const disponibles = productos.filter(p => p.data.available !== false);
+const entries = (await getCollection('productos')).filter(p => p.data.available !== false);
+
+// Each product needs its rendered markdown body for the detail modal.
+const productos = await Promise.all(
+  entries.map(async entry => ({
+    entry,
+    Content: (await entry.render()).Content,
+  }))
+);
+
 const iconPaths = {
   intangible: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
   tecnologia: 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z',
   servicio: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
   otro: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
 };
+
 const colorMap = {
   intangible: 'from-amber-400 to-orange-500',
   tecnologia: 'from-blue-400 to-blue-600',
   servicio: 'from-emerald-400 to-emerald-600',
   otro: 'from-violet-400 to-violet-600',
+};
+
+const categoryLabels = {
+  intangible: 'Intangible',
+  tecnologia: 'Tecnología',
+  servicio: 'Servicio',
+  otro: 'Otro',
 };
 ---
 
@@ -28,18 +45,25 @@ const colorMap = {
     />
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 justify-items-center">
-      {disponibles.map((p) => {
-        const cat = p.data.category ?? 'otro';
+      {productos.map(({ entry }) => {
+        const cat = entry.data.category ?? 'otro';
         return (
-          <Card hover="glow" class="text-center w-full max-w-md lg:max-w-none">
-            <div class="p-8">
-              {p.data.image ? (
-                <img
-                  src={p.data.image}
-                  alt={p.data.title}
-                  loading="lazy"
-                  class="w-full h-40 mx-auto mb-5 object-cover rounded-2xl"
-                />
+          <Card hover="glow" class="group w-full max-w-md lg:max-w-none">
+            <button
+              type="button"
+              class="flex flex-col w-full h-full p-8 text-center rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-eict-cyan focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-800"
+              data-modal-open={`producto-${entry.slug}`}
+              aria-haspopup="dialog"
+            >
+              {entry.data.image ? (
+                <div class="w-full h-40 mb-5 overflow-hidden rounded-2xl">
+                  <img
+                    src={entry.data.image}
+                    alt={entry.data.title}
+                    loading="lazy"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
               ) : (
                 <div class={`w-16 h-16 mx-auto mb-5 bg-gradient-to-br ${colorMap[cat] ?? colorMap.otro} rounded-2xl flex items-center justify-center`}>
                   <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -47,12 +71,18 @@ const colorMap = {
                   </svg>
                 </div>
               )}
-              <h3 class="text-lg font-bold text-eict-purple dark:text-white mb-2">{p.data.title}</h3>
-              <p class="text-sm text-gray-500 dark:text-gray-400">{p.data.description}</p>
-              {p.data.price && (
-                <p class="text-sm font-semibold text-eict-cyan mt-3">{p.data.price}</p>
+              <h3 class="text-lg font-bold text-eict-purple dark:text-white mb-2">{entry.data.title}</h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400 grow">{entry.data.description}</p>
+              {entry.data.price && (
+                <p class="text-sm font-semibold text-eict-cyan mt-3">{entry.data.price}</p>
               )}
-            </div>
+              <span class="inline-flex items-center justify-center gap-2 mt-5 text-sm font-semibold text-eict-cyan group-hover:text-eict-cyan-dark transition-colors duration-200">
+                Ver más
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </span>
+            </button>
           </Card>
         );
       })}
@@ -69,4 +99,20 @@ const colorMap = {
       </div>
     </div>
   </div>
+
+  {productos.map(({ entry, Content }) => (
+    <DetailModal
+      id={`producto-${entry.slug}`}
+      title={entry.data.title}
+      description={entry.data.description}
+      image={entry.data.image}
+      iconPath={iconPaths[entry.data.category ?? 'otro'] ?? iconPaths.otro}
+      price={entry.data.price}
+      badge={{ label: categoryLabels[entry.data.category ?? 'otro'] ?? 'Otro', tone: 'muted' }}
+      gallery={entry.data.gallery}
+      cta="Solicitar este producto"
+    >
+      <Content />
+    </DetailModal>
+  ))}
 </section>
