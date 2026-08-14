@@ -1,9 +1,16 @@
 // Receives a visitor review and commits it to the repo as an UNAPPROVED
 // markdown file. Nothing reaches the site until someone flips `aprobado: true`
 // in /admin, which is the only gate against spam and abuse here.
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const REPO = process.env.GITHUB_REPO || 'nightmare3006/EICT-Landing-Page';
-const BRANCH = process.env.GITHUB_BRANCH || 'main';
+// Accept the usual aliases: naming the variable GH_TOKEN in Vercel is a common
+// slip and used to fail with the same opaque "no configurado" message.
+const GITHUB_TOKEN = (
+  process.env.GITHUB_TOKEN ||
+  process.env.GH_TOKEN ||
+  process.env.GITHUB_ACCESS_TOKEN ||
+  ''
+).trim();
+const REPO = (process.env.GITHUB_REPO || 'nightmare3006/EICT-Landing-Page').trim();
+const BRANCH = (process.env.GITHUB_BRANCH || 'main').trim();
 
 const LIMITS = {
   nombre: { min: 2, max: 80 },
@@ -29,13 +36,66 @@ function slugify(text) {
 }
 
 export default async (req, res) => {
+  // GET is a health check: it reports whether the token is present and whether
+  // GitHub accepts it, WITHOUT ever echoing the token itself. Visiting
+  // /api/comentarios in a browser tells you exactly what is missing.
+  if (req.method === 'GET') {
+    const estado = {
+      funcion: 'ok',
+      repo: REPO,
+      rama: BRANCH,
+      tokenPresente: Boolean(GITHUB_TOKEN),
+      variablesDetectadas: ['GITHUB_TOKEN', 'GH_TOKEN', 'GITHUB_ACCESS_TOKEN'].filter(
+        name => (process.env[name] || '').trim().length > 0
+      ),
+    };
+
+    if (!GITHUB_TOKEN) {
+      estado.problema =
+        'Falta la variable GITHUB_TOKEN en Vercel (Settings > Environment Variables). ' +
+        'Tras añadirla hay que hacer Redeploy para que el despliegue actual la reciba.';
+      return res.status(200).json(estado);
+    }
+
+    try {
+      const r = await fetch(`https://api.github.com/repos/${REPO}`, {
+        headers: {
+          Authorization: `Bearer ${GITHUB_TOKEN}`,
+          Accept: 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28',
+          'User-Agent': 'eict-landing',
+        },
+      });
+      estado.tokenValido = r.ok;
+      if (!r.ok) {
+        estado.problema =
+          r.status === 401
+            ? 'El token existe pero GitHub lo rechaza (caducado o mal copiado).'
+            : r.status === 404
+              ? `El token no tiene acceso al repositorio ${REPO}. Revisa que lo incluya y que tenga permiso Contents: Read and write.`
+              : `GitHub respondió ${r.status}.`;
+      } else {
+        const info = await r.json();
+        estado.permisoEscritura = Boolean(info?.permissions?.push);
+        if (!estado.permisoEscritura) {
+          estado.problema = 'El token puede leer el repositorio pero no escribir. Necesita Contents: Read and write.';
+        }
+      }
+    } catch (err) {
+      estado.tokenValido = false;
+      estado.problema = 'No se pudo contactar con GitHub: ' + err.message;
+    }
+
+    return res.status(200).json(estado);
+  }
+
   if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
+    res.setHeader('Allow', 'GET, POST');
     return res.status(405).json({ error: 'Método no permitido' });
   }
 
   if (!GITHUB_TOKEN) {
-    console.error('GITHUB_TOKEN no está configurado');
+    console.error('Falta GITHUB_TOKEN: revisa las Environment Variables de Vercel y vuelve a desplegar');
     return res.status(500).json({ error: 'El formulario no está configurado. Escríbenos por correo.' });
   }
 
