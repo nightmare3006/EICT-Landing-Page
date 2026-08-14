@@ -24,7 +24,9 @@
                 },
                 media_folder: 'public/images/uploads',
                 public_folder: '/images/uploads',
-                publish_mode: 'editorial_workflow',
+                // Sin editorial_workflow: "Publicar" confirma en main de una vez.
+                // Con el flujo editorial habia que guardar, pasar de borrador a
+                // listo y publicar (3 pasos) para cada cambio.
                 site_url: 'https://eict.vercel.app',
                 display_url: 'https://eict.vercel.app',
                 logo_url: '/logo-eict.svg',
@@ -131,7 +133,10 @@
                     folder: 'src/content/comentarios',
                     create: true,
                     delete: true,
-                    slug: '{{year}}-{{month}}-{{day}}-{{slug}}',
+                    // Sin identifier_field, {{slug}} serializa la entrada entera y
+                    // produce nombres de archivo kilometricos.
+                    identifier_field: 'nombre',
+                    slug: '{{year}}-{{month}}-{{day}}-{{fields.nombre}}',
                     summary: '{{#if aprobado}}\u2714{{else}}\u23f3{{/if}} {{valoracion}}\u2605 \u2014 {{nombre}}',
                     sortable_fields: ['fecha', 'valoracion', 'aprobado'],
                     view_filters: [
